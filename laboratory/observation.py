@@ -14,7 +14,7 @@ def Test(name, raise_exceptions, observation):
 
     finally:
         observation.set_end_time()
-        print 'elapsed', observation.elapsed
+        print 'duration', observation.duration
 
 
 class Observation(object):
@@ -37,5 +37,5 @@ class Observation(object):
         self.exception = exception
 
     @property
-    def elapsed(self):
+    def duration(self):
         return self.end_time - self.start_time
