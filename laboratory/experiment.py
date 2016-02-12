@@ -1,3 +1,5 @@
+import traceback
+
 from laboratory.observation import Observation, Test
 from laboratory import exceptions
 
@@ -22,20 +24,32 @@ class Experiment(object):
 
     def run(self):
         control = self._control
+        if control is None:
+            raise exceptions.LaboratoryException(
+                'Your experiment must record a control case'
+            )
 
-        for observation in self.observations:
-            if not self.compare(control.value, observation):
-                msg = '%s does not match control value (%s != %s)' % (
-                        observation.name, control.value, observation.value
-                )
-                raise exceptions.MismatchException(msg)
-
-        return value
+        match = self.compare(control, *self.observations)
+        return control.value
 
     def compare(self, control, *candidates):
-        return all([
-            control == c for c in candidates
-        ])
+        for observation in candidates:
+            if observation.failure or control.value != observation.value:
+                return self._comparison_mismatch(control, observation)
+
+        return True
+
+    def _comparison_mismatch(self, control, observation):
+        if self.raise_on_mismatch:
+            if observation.failure:
+                msg = '%s raised an exception:\n%s' % traceback.format_exc(observation.exception)
+            else:
+                msg = '%s does not match control value (%s != %s)' % (
+                    observation.name, control.value, observation.value
+                )
+            raise exceptions.MismatchException(msg)
+
+        return False
 
     def publish(self):
         raise NotImplementedError

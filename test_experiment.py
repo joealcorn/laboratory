@@ -17,9 +17,13 @@ def test_control_raising_exception():
 
 def test_candidate_raising_exception():
     experiment = laboratory.Experiment()
+    with experiment.control() as e:
+        e.record(True)
+
     with experiment.candidate() as e:
         e.record(raise_exception())
 
+    experiment.run()
     assert True
 
 
