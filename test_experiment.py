@@ -15,7 +15,7 @@ def test_control_raising_exception():
     assert experiment._control.failure
 
 
-def test_candidate_raising_exception():
+def test_candidate_raising_exception_silently():
     experiment = laboratory.Experiment()
     with experiment.control() as e:
         e.record(True)
@@ -34,6 +34,16 @@ def test_raise_on_mismatch():
 
     with experiment.candidate() as e:
         e.record(0)
+
+    with pytest.raises(laboratory.exceptions.MismatchException):
+        experiment.run()
+
+    experiment = laboratory.Experiment(raise_on_mismatch=True)
+    with experiment.control() as e:
+        e.record(42)
+
+    with experiment.candidate() as e:
+        e.record(raise_exception())
 
     with pytest.raises(laboratory.exceptions.MismatchException):
         experiment.run()
