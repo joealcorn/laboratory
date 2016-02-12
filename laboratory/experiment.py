@@ -30,6 +30,7 @@ class Experiment(object):
             )
 
         match = self.compare(control, *self.observations)
+        self.publish(match)
         return control.value
 
     def compare(self, control, *candidates):
@@ -53,5 +54,5 @@ class Experiment(object):
 
         return False
 
-    def publish(self):
-        raise NotImplementedError
+    def publish(self, match):
+        return
