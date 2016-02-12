@@ -30,7 +30,7 @@ class Experiment(object):
             )
 
         match = self.compare(control, *self.observations)
-        self.publish(control, observations, match)
+        self.publish(control, self.observations, match)
         return control.value
 
     def compare(self, control, *candidates):
