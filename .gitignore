@@ -1,4 +1,5 @@
 *.py[co]
 *.egg-info/
+.eggs/
 .cache/
 __pycache__/

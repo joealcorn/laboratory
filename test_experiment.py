@@ -1,5 +1,7 @@
-import laboratory
+import mock
 import pytest
+
+import laboratory
 
 
 def raise_exception():
@@ -47,3 +49,30 @@ def test_raise_on_mismatch():
 
     with pytest.raises(laboratory.exceptions.MismatchException):
         experiment.run()
+
+
+@mock.patch.object(laboratory.Experiment, 'publish')
+def test_set_context(publish):
+    experiment = laboratory.Experiment(context={'ctx': True})
+
+    with experiment.control() as e:
+        e.record(0)
+        assert e.context == {'ctx': True}
+
+    with experiment.candidate() as e:
+        e.record(0)
+        e.update_context({'ctx': False})
+        assert e.context == {'ctx': False}
+
+    with experiment.candidate(context={'additional': 1}) as e:
+        e.record(0)
+        assert e.context == {'ctx': True, 'additional': 1}
+
+    assert experiment.context == {'ctx': True}
+    assert experiment.run() == 0
+    assert publish.called
+    result = publish.call_args[0][0]
+
+    assert result.control.get_context() == {'ctx': True}
+    assert result.observations[0].get_context() == {'ctx': False}
+    assert result.observations[1].get_context() == {'ctx': True, 'additional': 1}

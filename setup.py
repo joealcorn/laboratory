@@ -8,5 +8,5 @@ setup(
   author='Joe Alcorn',
   author_email='joealcorn123@gmail.com',
   url='https://github.com/joealcorn/laboratory',
-  tests_require=['pytest'],
+  tests_require=['pytest', 'mock'],
 )

@@ -17,10 +17,11 @@ def Test(observation, raise_exceptions):
 
 
 class Observation(object):
-    def __init__(self, name):
+    def __init__(self, name, context=None):
         self.name = name
         self.failure = False
         self.exception = None
+        self.context = context or {}
 
     def record(self, value):
         self.value = value
@@ -34,6 +35,12 @@ class Observation(object):
     def set_exception(self, exception):
         self.failure = True
         self.exception = exception
+
+    def get_context(self):
+        return self.context
+
+    def update_context(self, context):
+        self.context.update(context)
 
     @property
     def duration(self):

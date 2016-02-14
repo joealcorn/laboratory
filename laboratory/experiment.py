@@ -1,3 +1,4 @@
+from copy import deepcopy
 import logging
 import traceback
 
@@ -10,19 +11,24 @@ logger = logging.getLogger(__name__)
 
 class Experiment(object):
 
-    def __init__(self, name='Experiment', raise_on_mismatch=False):
+    def __init__(self, name='Experiment', context=None, raise_on_mismatch=False):
         self.name = name
+        self.context = context or {}
         self.raise_on_mismatch = raise_on_mismatch
 
         self._control = None
         self._observations = []
 
-    def control(self):
-        self._control = Observation('Control')
+    def control(self, context=None):
+        _context = deepcopy(self.context)
+        _context.update(context or {})
+        self._control = Observation('Control', context=_context)
         return Test(self._control, True)
 
-    def candidate(self, name='Candidate'):
-        observation = Observation(name)
+    def candidate(self, name='Candidate', context=None):
+        _context = deepcopy(self.context)
+        _context.update(context or {})
+        observation = Observation(name, context=_context)
         self._observations.append(observation)
         return Test(observation, False)
 
