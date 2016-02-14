@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     version='0.1.0',
     description='A place for experimenting',
-    # long_description=long_description,
+    long_description=long_description,
     author='Joe Alcorn',
     author_email='joealcorn123@gmail.com',
     url='https://github.com/joealcorn/laboratory',
@@ -20,7 +20,15 @@ setup(
     license='MIT',
     classifiers=[
         'License :: OSI Approved :: MIT License',
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Testing',
         'Programming Language :: Python :: 2',
-
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.1',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
     ]
 )
