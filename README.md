@@ -3,6 +3,11 @@
 A Python library for carefully refactoring critical paths (and a port of [Github's Scientist](https://github.com/github/scientist)).
 
 
+## Why?
+
+See Github's blog post - http://githubengineering.com/scientist/
+
+
 ## But how?
 
 Imagine you've implemented a complex caching strategy for some objects in your database and a stale cache is simply not acceptable.
