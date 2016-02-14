@@ -55,7 +55,7 @@ class MyExperiment(Experiment):
 ```
 
 
-# Adding context
+## Adding context
 
 A lot of the time there's going to be extra context around an experiment that's useful to use in publishing or comparisons.
 You can set this data in a few ways.
