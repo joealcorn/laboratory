@@ -48,10 +48,9 @@ class Experiment(object):
 
         return self._control.value
 
-    def compare(self, control, *candidates):
-        for observation in candidates:
-            if observation.failure or control.value != observation.value:
-                return self._comparison_mismatch(control, observation)
+    def compare(self, control, observation):
+        if observation.failure or control.value != observation.value:
+            return self._comparison_mismatch(control, observation)
 
         return True
 

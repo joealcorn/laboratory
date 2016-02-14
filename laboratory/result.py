@@ -6,4 +6,7 @@ class Result(object):
         self.control = control
         self.observations = observations
 
-        self.match = self.experiment.compare(self.control, *self.observations)
+        self.match = all([
+            self.experiment.compare(self.control, o)
+            for o in self.observations
+        ])
