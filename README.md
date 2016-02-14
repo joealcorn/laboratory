@@ -30,3 +30,26 @@ objects = experiment.run()
 Mark the original code as the control and any other implementations as candidates. Timing information is recorded about all control
 and candidate blocks, and any exceptions from the candidates will be swallowed so they don't affect availability.
 Laboratory will always return the result of the control block.
+
+
+## Publishing results
+
+This data is useless unless we can do something with it. Laboratory makes no assumptions about how to do this - it's entirely for you
+to implement to suit your needs.
+For example, timing data can be sent to graphite, and mismatches can be placed in a capped collection in redis for debugging later.
+
+The publish method is passed a `Result` instance, with control and candidate data is available in `Result.control` and `Result.observations`
+respectively.
+
+
+## Controlling comparison
+
+Not all data is created equal. By default laboratory compares using `==`, but sometimes you may need to tweak this to suit your needs.
+It's easy enough - just subclass `Experiment` and implement the `compare(control, observation)` method.
+
+```python
+
+class MyExperiment(Experiment):
+    def compare(self, control, observation):
+        return control.value['id'] == observation.value['id']
+```
