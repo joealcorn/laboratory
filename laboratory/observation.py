@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from datetime import datetime
+import sys
 
 
 @contextmanager
@@ -21,6 +22,7 @@ class Observation(object):
         self.name = name
         self.failure = False
         self.exception = None
+        self.exc_info = None
         self.context = context or {}
 
     def record(self, value):
@@ -35,6 +37,7 @@ class Observation(object):
     def set_exception(self, exception):
         self.failure = True
         self.exception = exception
+        self.exc_info = sys.exc_info()
 
     def get_context(self):
         return self.context

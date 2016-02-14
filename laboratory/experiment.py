@@ -57,9 +57,8 @@ class Experiment(object):
     def _comparison_mismatch(self, control, observation):
         if self.raise_on_mismatch:
             if observation.failure:
-                msg = '%s raised an exception:\n%s' % (
-                    observation.name, traceback.format_exc(observation.exception)
-                )
+                tb = ''.join(traceback.format_exception(*observation.exc_info))
+                msg = '%s raised an exception:\n%s' % (observation.name, tb)
             else:
                 msg = '%s does not match control value (%s != %s)' % (
                     observation.name, control.value, observation.value
