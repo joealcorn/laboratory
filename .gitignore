@@ -3,3 +3,4 @@
 .eggs/
 .cache/
 __pycache__/
+.tox/
