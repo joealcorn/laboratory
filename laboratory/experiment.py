@@ -19,12 +19,12 @@ class Experiment(object):
 
     def control(self):
         self._control = Observation('Control')
-        return Test('Control', True, self._control)
+        return Test(self._control, True)
 
     def candidate(self, name='Candidate'):
         observation = Observation(name)
         self._observations.append(observation)
-        return Test(name, False, observation)
+        return Test(observation, False)
 
     def run(self):
         if self._control is None:

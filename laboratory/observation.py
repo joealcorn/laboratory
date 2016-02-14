@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 @contextmanager
-def Test(name, raise_exceptions, observation):
+def Test(observation, raise_exceptions):
     observation.set_start_time()
     try:
         yield observation
