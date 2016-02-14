@@ -10,7 +10,7 @@ setup(
     name='laboratory',
     packages=find_packages(),
     version='0.1.0',
-    description='A place for experimenting',
+    description="A Python port of Github's Scientist lib.",
     long_description=long_description,
     author='Joe Alcorn',
     author_email='joealcorn123@gmail.com',
