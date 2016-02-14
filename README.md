@@ -88,3 +88,10 @@ with experiment.candidate(name='Object Cache Strategy', context={'using': 'cache
     #     'using': 'cache',
     # }
 ```
+
+
+## Installation
+
+Installing from pypi is recommended
+
+`$ pip install laboratory`
