@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md')) as f:
 setup(
     name='laboratory',
     packages=find_packages(),
-    version='0.1.0',
+    version='0.1.1dev',
     description="A Python port of Github's Scientist lib.",
     long_description=long_description,
     author='Joe Alcorn',
