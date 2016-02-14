@@ -53,3 +53,38 @@ class MyExperiment(Experiment):
     def compare(self, control, observation):
         return control.value['id'] == observation.value['id']
 ```
+
+
+# Adding context
+
+A lot of the time there's going to be extra context around an experiment that's useful to use in publishing or comparisons.
+You can set this data in a few ways.
+
+```python
+# The first is experiment-wide context, which will be set on every observation laboratory makes.
+
+experiment = laboratory.Experiment(name='Object Cache Experiment', context={'user': user})
+
+
+# Observation-specific context can be updated before or as the experiment is running.
+
+with experiment.control(name='Object DB Strategy', context={'using': 'db'}) as e:
+    e.update_context({'uuid': uuid})
+
+    e.get_context() # ==
+    # {
+    #     'user': <User>,
+    #     'uuid': 'c08d46f1-92a6-46e5-9185-82d90dcb5af1',
+    #     'using': 'db',
+    # }
+
+
+with experiment.candidate(name='Object Cache Strategy', context={'using': 'cache'}) as e:
+    e.update_context({'uuid': uuid})
+
+    e.get_context() # ==
+    # {
+    #     'user': <User>,
+    #     'using': 'cache',
+    # }
+```
