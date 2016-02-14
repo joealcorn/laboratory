@@ -14,7 +14,6 @@ def Test(name, raise_exceptions, observation):
 
     finally:
         observation.set_end_time()
-        print 'duration', observation.duration
 
 
 class Observation(object):

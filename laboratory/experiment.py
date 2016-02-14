@@ -1,7 +1,11 @@
+import logging
 import traceback
 
-from laboratory.observation import Observation, Test
 from laboratory import exceptions
+from laboratory.observation import Observation, Test
+from laboratory.result import Result
+
+logger = logging.getLogger(__name__)
 
 
 class Experiment(object):
@@ -11,7 +15,7 @@ class Experiment(object):
         self.raise_on_mismatch = raise_on_mismatch
 
         self._control = None
-        self.observations = []
+        self._observations = []
 
     def control(self):
         self._control = Observation('Control')
@@ -19,19 +23,24 @@ class Experiment(object):
 
     def candidate(self, name='Candidate'):
         observation = Observation(name)
-        self.observations.append(observation)
+        self._observations.append(observation)
         return Test(name, False, observation)
 
     def run(self):
-        control = self._control
-        if control is None:
+        if self._control is None:
             raise exceptions.LaboratoryException(
                 'Your experiment must record a control case'
             )
 
-        match = self.compare(control, *self.observations)
-        self.publish(control, self.observations, match)
-        return control.value
+        result = Result(self, self._control, self._observations)
+
+        try:
+            self.publish(result)
+        except Exception, e:
+            msg = 'Exception occured when publishing %s experiment data'
+            logger.exception(msg % self.name)
+
+        return self._control.value
 
     def compare(self, control, *candidates):
         for observation in candidates:
@@ -54,5 +63,5 @@ class Experiment(object):
 
         return False
 
-    def publish(self, control, observations, match):
+    def publish(self, result):
         return
