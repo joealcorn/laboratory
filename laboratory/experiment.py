@@ -42,7 +42,7 @@ class Experiment(object):
 
         try:
             self.publish(result)
-        except Exception, e:
+        except Exception as e:
             msg = 'Exception occured when publishing %s experiment data'
             logger.exception(msg % self.name)
 

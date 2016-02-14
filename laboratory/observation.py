@@ -7,7 +7,7 @@ def Test(observation, raise_exceptions):
     observation.set_start_time()
     try:
         yield observation
-    except Exception, ex:
+    except Exception as ex:
         observation.set_exception(ex)
         if raise_exceptions:
             raise
