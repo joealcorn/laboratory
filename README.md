@@ -43,6 +43,16 @@ For example, timing data can be sent to graphite, and mismatches can be placed i
 The publish method is passed a `Result` instance, with control and candidate data is available in `Result.control` and `Result.observations`
 respectively.
 
+```python
+
+class MyExperiment(laboratory.Experiment):
+    def publish(self, result):
+        statsd.timing('MyExperiment.control', result.control.duration)
+        for o in result.observations:
+            statsd.timing('MyExperiment.%s' % o.name, o.duration)
+
+```
+
 
 ## Controlling comparison
 
