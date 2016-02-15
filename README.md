@@ -14,6 +14,13 @@ Imagine you've implemented a complex caching strategy for some objects in your d
 How could you test this and ensure parity with your previous implementation, under load, with production data?
 Run it in production!
 
+Laboratory will run both the old and the new code and allow you to compare the results so you're 100% certain your code works as it should.
+Timing information will be recorded about all blocks so you can see the performance implications of your fresh new code, and any exceptions
+raised in your refactored code will be swallowed and logged so they don't affect availability.
+
+Of course, you're still unsure your candidate code works correctly, so laboratory will always return the result from the candidate block.
+
+
 ```python
 import laboratory
 
@@ -26,11 +33,6 @@ with experiment.candidate() as c:
 
 objects = experiment.run()
 ```
-
-Mark the original code as the control and any other implementations as candidates. Timing information is recorded about all control
-and candidate blocks, and any exceptions from the candidates will be swallowed so they don't affect availability.
-Laboratory will always return the result of the control block.
-
 
 ## Publishing results
 
