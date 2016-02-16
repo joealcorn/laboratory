@@ -30,7 +30,7 @@ Laboratory will:
 -  Publish all of this information
 
 Of course, you're still unsure your candidate code works correctly, so
-laboratory will always return the result from the candidate block.
+laboratory will always return the result from the control block.
 
 .. code:: python
 
