@@ -5,19 +5,21 @@ import traceback
 from laboratory import exceptions
 from laboratory.observation import Observation, Test
 from laboratory.result import Result
+from functools import wraps
 
 logger = logging.getLogger(__name__)
 
 
 class Experiment(object):
 
-    def __init__(self, name='Experiment', context=None, raise_on_mismatch=False):
+    def __init__(self, name='Experiment', context=None, raise_on_mismatch=False, candidate=None):
         self.name = name
         self.context = context or {}
         self.raise_on_mismatch = raise_on_mismatch
 
         self._control = None
         self._observations = []
+        self._candidate = candidate
 
     def control(self, context=None):
         _context = deepcopy(self.context)
@@ -69,3 +71,16 @@ class Experiment(object):
 
     def publish(self, result):
         return
+
+    def __call__(self, f):
+        @wraps(f)
+        def decorate(*args, **kwargs):
+            with self.control() as c:
+                c.record(f(*args, **kwargs))
+
+            with self.candidate() as c:
+                c.record(self._candidate(*args, **kwargs))
+
+            return self.run()
+
+        return decorate
