@@ -45,6 +45,14 @@ laboratory will always return the result from the control block.
 
     objects = experiment.run()
 
+Note that the ``Experiment`` class can also be used as a decorator.
+
+.. code:: python
+
+    @Experiment(candidate=get_objects_from_cache)
+    def get_objects_from_database():
+        return True
+
 
 Publishing results
 ------------------
