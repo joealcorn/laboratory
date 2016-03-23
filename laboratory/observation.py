@@ -48,3 +48,12 @@ class Observation(object):
     @property
     def duration(self):
         return self.end_time - self.start_time
+
+    def __repr__(self):
+        repr = "Observation(name={name!r}".format(name=self.name)
+        if hasattr(self, 'value'):
+            repr += ", value={value!r}".format(value=self.value)
+        if self.exception:
+            repr += ", exception={exception!r}".format(exception=self.exception)
+        repr += ")"
+        return repr

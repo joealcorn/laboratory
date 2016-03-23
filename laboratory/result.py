@@ -10,3 +10,8 @@ class Result(object):
             self.experiment.compare(self.control, o)
             for o in self.observations
         ])
+
+    def __repr__(self):
+        return "Result(match={}, control={!r}, observations={!r})".format(
+            self.match, self.control, self.observations
+        )

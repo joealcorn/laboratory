@@ -2,6 +2,7 @@ import mock
 import pytest
 
 import laboratory
+from laboratory.observation import Observation
 
 
 def raise_exception():
@@ -76,3 +77,24 @@ def test_set_context(publish):
     assert result.control.get_context() == {'ctx': True}
     assert result.observations[0].get_context() == {'ctx': False}
     assert result.observations[1].get_context() == {'ctx': True, 'additional': 1}
+
+
+def test_repr_without_value():
+    obs = Observation("an observation")
+
+    assert repr(obs) == "Observation(name='an observation')"
+
+
+def test_repr():
+    obs = Observation("an observation")
+    a_somewhat_complex_value = {'foo': 'bar'}
+    obs.record(a_somewhat_complex_value)
+
+    assert repr(obs) == """Observation(name='an observation', value={'foo': 'bar'})"""
+
+
+def test_repr_with_exception():
+    obs = Observation("an observation")
+    obs.set_exception(ValueError("something is wrong"))
+
+    assert repr(obs) == """Observation(name='an observation', exception=ValueError('something is wrong',))"""
