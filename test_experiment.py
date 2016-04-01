@@ -82,7 +82,7 @@ def test_set_context(publish):
 def test_repr_without_value():
     obs = Observation("an observation")
 
-    assert repr(obs) == "Observation(name='an observation')"
+    assert repr(obs) == "Observation(name='an observation', value=Unrecorded)"
 
 
 def test_repr():
@@ -97,4 +97,4 @@ def test_repr_with_exception():
     obs = Observation("an observation")
     obs.set_exception(ValueError("something is wrong"))
 
-    assert repr(obs) == """Observation(name='an observation', exception=ValueError('something is wrong',))"""
+    assert repr(obs) == """Observation(name='an observation', value=Unrecorded, exception=ValueError('something is wrong',))"""

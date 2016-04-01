@@ -16,6 +16,12 @@ def Test(observation, raise_exceptions):
     finally:
         observation.set_end_time()
 
+class _Unrecorded(object):
+    def __repr__(self):
+        return "Unrecorded"
+
+unrecorded = _Unrecorded()
+
 
 class Observation(object):
     def __init__(self, name, context=None):
@@ -24,6 +30,7 @@ class Observation(object):
         self.exception = None
         self.exc_info = None
         self.context = context or {}
+        self.value = unrecorded
 
     def record(self, value):
         self.value = value
@@ -51,8 +58,7 @@ class Observation(object):
 
     def __repr__(self):
         repr = "Observation(name={name!r}".format(name=self.name)
-        if hasattr(self, 'value'):
-            repr += ", value={value!r}".format(value=self.value)
+        repr += ", value={value!r}".format(value=self.value)
         if self.exception:
             repr += ", exception={exception!r}".format(exception=self.exception)
         repr += ")"
