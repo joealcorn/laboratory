@@ -109,7 +109,7 @@ ways.
     with experiment.control(name='Object DB Strategy', context={'using': 'db'}) as e:
         e.update_context({'uuid': uuid})
 
-        e.get_context() # ==
+        e.get_context()
         # {
         #     'user': <User>,
         #     'uuid': 'c08d46f1-92a6-46e5-9185-82d90dcb5af1',
@@ -120,11 +120,23 @@ ways.
     with experiment.candidate(name='Object Cache Strategy', context={'using': 'cache'}) as e:
         e.update_context({'uuid': uuid})
 
-        e.get_context() # ==
+        e.get_context()
         # {
         #     'user': <User>,
         #     'using': 'cache',
         # }
+
+
+Context can be retrieved using the ``get_context`` method on ``Experiment`` and ``Observation`` classes.
+
+.. code:: python
+
+    class Experiment(laboratory.Experiment):
+
+        def publish(self, result):
+            self.get_context()
+            result.control.get_context()
+            result.observations[0].get_context()
 
 
 Installation

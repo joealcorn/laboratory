@@ -69,7 +69,7 @@ def test_set_context(publish):
         e.record(0)
         assert e.context == {'ctx': True, 'additional': 1}
 
-    assert experiment.context == {'ctx': True}
+    assert experiment.get_context() == {'ctx': True}
     assert experiment.run() == 0
     assert publish.called
     result = publish.call_args[0][0]

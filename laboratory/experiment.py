@@ -72,6 +72,9 @@ class Experiment(object):
     def publish(self, result):
         return
 
+    def get_context(self):
+        return self.context
+
     def __call__(self, f):
         @wraps(f)
         def decorate(*args, **kwargs):
