@@ -7,11 +7,20 @@ A Python library for carefully refactoring critical paths (and a port of
 .. _GitHub's Scientist: https://github.com/github/scientist
 
 
+- `Installation`_
+- `Getting started`_
+- `Publishing results`_
+- `Controlling comparison`_
+- `Adding context`_
+
+
 Why?
 ----
 
 See GitHub's blog post |--| http://githubengineering.com/scientist/
 
+
+.. _Getting started:
 
 But how?
 --------
@@ -147,6 +156,13 @@ Installing from pypi is recommended
 .. code::
 
     $ pip install laboratory
+
+
+Maintenance
+-----------
+
+Laboratory is actively maintained by Joe Alcorn (`Github <https://github.com/joealcorn>`_, `Twitter <https://twitter.com/joe_alcorn>`_)
+
 
 .. |--| unicode:: U+2014  .. em dash
 
