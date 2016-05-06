@@ -1,2 +1,2 @@
 from .exceptions import MismatchException
-from .experiment import Experiment
+from .experiment import Experiment, ExperimentDecorator
