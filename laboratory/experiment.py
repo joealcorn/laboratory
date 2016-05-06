@@ -75,15 +75,30 @@ class Experiment(object):
     def get_context(self):
         return self.context
 
+
+class ExperimentDecorator(object):
+
+    experiment_class = Experiment
+
+    def __init__(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+        if 'experiment_class' in kwargs:
+            self.experiment_class = kwargs['experiment_class']
+            del self.kwargs['experiment_class']
+
     def __call__(self, f):
         @wraps(f)
         def decorate(*args, **kwargs):
-            with self.control() as c:
+            experiment = self.experiment_class(*self.args, **self.kwargs)
+
+            with experiment.control() as c:
                 c.record(f(*args, **kwargs))
 
-            with self.candidate() as c:
-                c.record(self._candidate(*args, **kwargs))
+            with experiment.candidate() as c:
+                c.record(experiment._candidate(*args, **kwargs))
 
-            return self.run()
+            return experiment.run()
 
         return decorate
