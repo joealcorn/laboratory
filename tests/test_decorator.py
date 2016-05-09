@@ -27,3 +27,28 @@ def test_decorated_functions():
         dummy_control_mismatch("blah")
 
     assert dummy_control_match("blah") == True
+
+
+def test_observations_reset_with_every_call():
+    experiment = Experiment(candidate=lambda value: value)
+    @experiment
+    def control(value):
+        return value
+
+    @experiment
+    def control_raises(value):
+        raise Exception()
+
+    control(True)
+    assert experiment._control.value is True
+    assert len(experiment._observations) == 1
+    assert experiment._observations[0].value is True
+
+    control(False)
+    assert len(experiment._observations) == 1
+    assert experiment._control.value is False
+    assert experiment._observations[0].value is False
+
+    with pytest.raises(Exception):
+        control_raises(False)
+    assert len(experiment._observations) == 0

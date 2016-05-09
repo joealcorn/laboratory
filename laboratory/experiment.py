@@ -75,9 +75,19 @@ class Experiment(object):
     def get_context(self):
         return self.context
 
+    def _reset_state(self):
+        self._control = None
+        self._observations = []
+
     def __call__(self, f):
         @wraps(f)
         def decorate(*args, **kwargs):
+            # Multiple calls will occur on the same Experiment instance,
+            # so we need to reset the state between runs. We do this
+            # before rather than after so that raised exceptions do
+            # not prevent the state from being cleared
+            self._reset_state()
+
             with self.control() as c:
                 c.record(f(*args, **kwargs))
 
