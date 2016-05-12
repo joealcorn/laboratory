@@ -21,10 +21,10 @@ class Experiment(object):
         self._observations = []
         self._candidate = candidate
 
-    def control(self, context=None):
+    def control(self, name='Control', context=None):
         _context = deepcopy(self.context)
         _context.update(context or {})
-        self._control = Observation('Control', context=_context)
+        self._control = Observation(name, context=_context)
         return Test(self._control, True)
 
     def candidate(self, name='Candidate', context=None):
