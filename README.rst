@@ -148,6 +148,42 @@ Context can be retrieved using the ``get_context`` method on ``Experiment`` and 
             result.observations[0].get_context()
 
 
+
+Using as class mixin
+--------------------
+
+One can use ``ExperimentMixin`` to simplify integration into exisiting classes.
+
+.. code:: python
+
+    class MyClass(ExperimentMixin):
+        _ex_name = 'MyClass Experiment'
+
+        def new_func(self, arg):
+            return arg
+
+        @EperimentMixin.experiment(new_func)
+        def original_func(self, arg):
+            return arg
+
+        @staticmethod
+        def _ex_compare(experiment, control, observation):
+            return control == observation
+
+        @staticmethod
+        def _ex_publish(experiment, result):
+            context = experiment.get_context()
+            Stats().save(context=context, match=result.match)
+
+.. note:: In order to be able to use decorator, new function should be defined before old one
+
+Extra class attributes mixin would look for (all attributes start with ``_ex_``):
+
+    :_ex_name: Name for this experiment (same as ``Experiment(name='...')``)
+    :_ex_context: Experiment-wide context (same as ``Experiment(context=...)``
+    :_ex_raise_on_mismatch: same as ``Experiment(raise_on_mismatch=...)``
+
+
 Installation
 ------------
 
