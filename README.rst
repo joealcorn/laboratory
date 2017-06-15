@@ -52,7 +52,7 @@ laboratory will always return the result from the control block.
     with experiment.candidate() as c:
         c.record(get_objects_from_cache())
 
-    objects = experiment.run()
+    objects = experiment.conduct()
 
 Note that the ``Experiment`` class can also be used as a decorator.
 

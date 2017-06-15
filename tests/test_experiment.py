@@ -26,7 +26,7 @@ def test_candidate_raising_exception_silently():
     with experiment.candidate() as e:
         e.record(raise_exception())
 
-    experiment.run()
+    experiment.conduct()
     assert True
 
 
@@ -39,7 +39,7 @@ def test_raise_on_mismatch():
         e.record(0)
 
     with pytest.raises(laboratory.exceptions.MismatchException):
-        experiment.run()
+        experiment.conduct()
 
     experiment = laboratory.Experiment(raise_on_mismatch=True)
     with experiment.control() as e:
@@ -49,7 +49,7 @@ def test_raise_on_mismatch():
         e.record(raise_exception())
 
     with pytest.raises(laboratory.exceptions.MismatchException):
-        experiment.run()
+        experiment.conduct()
 
 
 @mock.patch.object(laboratory.Experiment, 'publish')
@@ -70,7 +70,7 @@ def test_set_context(publish):
         assert e.context == {'ctx': True, 'additional': 1}
 
     assert experiment.get_context() == {'ctx': True}
-    assert experiment.run() == 0
+    assert experiment.conduct() == 0
     assert publish.called
     result = publish.call_args[0][0]
 

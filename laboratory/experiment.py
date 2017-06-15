@@ -34,7 +34,7 @@ class Experiment(object):
         self._observations.append(observation)
         return Test(observation, False)
 
-    def run(self):
+    def conduct(self):
         if self._control is None:
             raise exceptions.LaboratoryException(
                 'Your experiment must record a control case'
@@ -49,6 +49,9 @@ class Experiment(object):
             logger.exception(msg % self.name)
 
         return self._control.value
+
+    def run(self):
+        return self.conduct()
 
     def compare(self, control, observation):
         if observation.failure or control.value != observation.value:
@@ -94,6 +97,6 @@ class Experiment(object):
             with self.candidate() as c:
                 c.record(self._candidate(*args, **kwargs))
 
-            return self.run()
+            return self.conduct()
 
         return decorate
