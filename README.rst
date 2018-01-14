@@ -11,6 +11,7 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 - `Getting started`_
 - `Adding context`_
 - `Controlling comparison`_
+    - `Raise on mismatch`_
 - `Publishing results`_
 - `Installation`_
 
@@ -143,6 +144,14 @@ observation)`` method.
     class MyExperiment(Experiment):
         def compare(self, control, observation):
             return control.value['id'] == observation.value['id']
+
+
+Raise on mismatch
+*****************
+
+The ``Experiment`` class accepts a ``raise_on_mismatch`` argument which you can set
+to ``True`` if you want Laboratory to raise an exception when the comparison returns
+false. This may be useful in testing, for example.
 
 
 Publishing results
