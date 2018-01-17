@@ -2,52 +2,50 @@ import mock
 import pytest
 
 import laboratory
-from laboratory.observation import Observation
+from laboratory.observation import Observation, unrecorded
 
+
+class ResultExperiment(laboratory.Experiment):
+    def publish(self, result):
+        self._result = result
 
 def raise_exception():
     return {'a': 'b'}['c']
 
 
+
 def test_control_raising_exception():
     experiment = laboratory.Experiment()
+    experiment.control(raise_exception)
     with pytest.raises(KeyError):
-        with experiment.control() as e:
-            e.record(raise_exception())
-
-    assert experiment._control.failure
+        experiment.conduct()
 
 
 def test_candidate_raising_exception_silently():
-    experiment = laboratory.Experiment()
-    with experiment.control() as e:
-        e.record(True)
-
-    with experiment.candidate() as e:
-        e.record(raise_exception())
-
+    experiment = ResultExperiment()
+    experiment.control(lambda: True)
+    experiment.candidate(raise_exception)
     experiment.conduct()
-    assert True
+    result = experiment._result
+
+    obs = result.observations[0]
+    assert not result.match
+    assert obs.value == unrecorded
+    assert obs.exception is not None
 
 
 def test_raise_on_mismatch():
     experiment = laboratory.Experiment(raise_on_mismatch=True)
-    with experiment.control() as e:
-        e.record(42)
-
-    with experiment.candidate() as e:
-        e.record(0)
+    experiment.control(lambda: 42)
+    experiment.candidate(lambda: 0)
 
     with pytest.raises(laboratory.exceptions.MismatchException):
         experiment.conduct()
 
     experiment = laboratory.Experiment(raise_on_mismatch=True)
-    with experiment.control() as e:
-        e.record(42)
+    experiment.control(lambda: 42)
 
-    with experiment.candidate() as e:
-        e.record(raise_exception())
-
+    experiment.candidate(raise_exception)
     with pytest.raises(laboratory.exceptions.MismatchException):
         experiment.conduct()
 
@@ -55,28 +53,16 @@ def test_raise_on_mismatch():
 @mock.patch.object(laboratory.Experiment, 'publish')
 def test_set_context(publish):
     experiment = laboratory.Experiment(context={'ctx': True})
+    experiment.control(lambda: 0, context={'control': True})
+    experiment.candidate(lambda: 0, context={'ctx': False, 'candidate': True})
 
-    with experiment.control() as e:
-        e.record(0)
-        assert e.context == {'ctx': True}
-
-    with experiment.candidate() as e:
-        e.record(0)
-        e.update_context({'ctx': False})
-        assert e.context == {'ctx': False}
-
-    with experiment.candidate(context={'additional': 1}) as e:
-        e.record(0)
-        assert e.context == {'ctx': True, 'additional': 1}
-
-    assert experiment.get_context() == {'ctx': True}
-    assert experiment.conduct() == 0
+    experiment.conduct()
     assert publish.called
     result = publish.call_args[0][0]
 
-    assert result.control.get_context() == {'ctx': True}
-    assert result.observations[0].get_context() == {'ctx': False}
-    assert result.observations[1].get_context() == {'ctx': True, 'additional': 1}
+    assert experiment.get_context() == {'ctx': True}
+    assert result.control.get_context() == {'ctx': True, 'control': True}
+    assert result.observations[0].get_context() == {'ctx': False, 'candidate': True}
 
 
 def test_repr_without_value():

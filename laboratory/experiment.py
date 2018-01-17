@@ -1,55 +1,91 @@
 from copy import deepcopy
+from functools import wraps
 import logging
 import traceback
 import warnings
 
 from laboratory import exceptions
-from laboratory.observation import Observation, Test
+from laboratory.observation import Observation
 from laboratory.result import Result
-from functools import wraps
+
 
 logger = logging.getLogger(__name__)
 
 
 class Experiment(object):
 
-    def __init__(self, name='Experiment', context=None, raise_on_mismatch=False, candidate=None):
+    def __init__(self, name='Experiment', context=None, raise_on_mismatch=False):
         self.name = name
         self.context = context or {}
         self.raise_on_mismatch = raise_on_mismatch
 
         self._control = None
         self._observations = []
-        self._candidate = candidate
+        self._candidates = []
 
-    def control(self, name='Control', context=None):
-        _context = deepcopy(self.context)
-        _context.update(context or {})
-        self._control = Observation(name, context=_context)
-        return Test(self._control, True)
+    def control(self, control_func, args=None, kwargs=None, name='Control', context=None):
+        if self._control is not None:
+            raise exceptions.LaboratoryException(
+                'You have already established a control case'
+            )
 
-    def candidate(self, name='Candidate', context=None):
-        _context = deepcopy(self.context)
-        _context.update(context or {})
-        observation = Observation(name, context=_context)
-        self._observations.append(observation)
-        return Test(observation, False)
+        self._control = {
+            'func': control_func,
+            'args': args or [],
+            'kwargs': kwargs or {},
+            'name': name,
+            'context': context or {},
+        }
+
+    def candidate(self, cand_func, args=None, kwargs=None, name='Candidate', context=None):
+        self._candidates.append({
+            'func': cand_func,
+            'args': args or [],
+            'kwargs': kwargs or {},
+            'name': name,
+            'context': context or {},
+        })
 
     def conduct(self):
         if self._control is None:
             raise exceptions.LaboratoryException(
-                'Your experiment must record a control case'
+                'Your experiment must contain a control case'
             )
 
-        result = Result(self, self._control, self._observations)
+        # Run the control block and then any candidates
+        control = self._run_tested_func(raise_on_exception=True, **self._control)
+        candidates = [self._run_tested_func(
+            raise_on_exception=False, **cand
+        ) for cand in self._candidates]
+
+        result = Result(self, control, candidates)
 
         try:
             self.publish(result)
-        except Exception as e:
+        except Exception:
             msg = 'Exception occured when publishing %s experiment data'
             logger.exception(msg % self.name)
 
-        return self._control.value
+        return control.value
+
+    def _run_tested_func(self, func, args, kwargs, name, context, raise_on_exception):
+        ctx = deepcopy(self.context)
+        ctx.update(context)
+
+        obs = Observation(name, ctx)
+        self._observations.append(obs)
+
+        obs.set_start_time()
+        try:
+            obs.record(func(*args, **kwargs))
+        except Exception as ex:
+            obs.set_exception(ex)
+            if raise_on_exception:
+                raise
+        finally:
+            obs.set_end_time()
+
+        return obs
 
     def run(self):
         warnings.warn('run() is deprecated and will be removed in 1.0. Use conduct() instead', DeprecationWarning)
@@ -57,11 +93,11 @@ class Experiment(object):
 
     def compare(self, control, observation):
         if observation.failure or control.value != observation.value:
-            return self._comparison_mismatch(control, observation)
+            return self._handle_comparison_mismatch(control, observation)
 
         return True
 
-    def _comparison_mismatch(self, control, observation):
+    def _handle_comparison_mismatch(self, control, observation):
         if self.raise_on_mismatch:
             if observation.failure:
                 tb = ''.join(traceback.format_exception(*observation.exc_info))
@@ -84,21 +120,14 @@ class Experiment(object):
         self._control = None
         self._observations = []
 
-    def __call__(self, f):
-        @wraps(f)
-        def decorate(*args, **kwargs):
-            # Multiple calls will occur on the same Experiment instance,
-            # so we need to reset the state between runs. We do this
-            # before rather than after so that raised exceptions do
-            # not prevent the state from being cleared
-            self._reset_state()
-
-            with self.control() as c:
-                c.record(f(*args, **kwargs))
-
-            with self.candidate() as c:
-                c.record(self._candidate(*args, **kwargs))
-
-            return self.conduct()
-
-        return decorate
+    @classmethod
+    def decorator(cls, candidate, *exp_args, **exp_kwargs):
+        def wrapper(control):
+            @wraps(control)
+            def inner(*args, **kwargs):
+                experiment = cls(*exp_args, **exp_kwargs)
+                experiment.control(control, args=args, kwargs=kwargs)
+                experiment.candidate(candidate, args=args, kwargs=kwargs)
+                return experiment.conduct()
+            return inner
+        return wrapper

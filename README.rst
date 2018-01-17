@@ -11,7 +11,7 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 - `Getting started`_
 - `Adding context`_
 - `Controlling comparison`_
-    - `Raise on mismatch`_
+- `Raise on mismatch`_
 - `Publishing results`_
 - `Installation`_
 
@@ -72,13 +72,12 @@ Let's set up an experiment to run our old (control) and new (candidate) code:
 
     import laboratory
 
+    # set up the experiment and define control and candidate functions
     experiment = laboratory.Experiment()
-    with experiment.control() as c:
-        c.record(authorise_control(action))
+    experiment.control(authorise_control, args=(action,))
+    experiment.candidate(authorise_candidate, args=(action,))
 
-    with experiment.candidate() as c:
-        c.record(authorise_candidate(action))
-
+    # conduct the experiment and return the control value
     authorised = experiment.conduct()
 
 
@@ -90,7 +89,7 @@ control and candidate functions take the same arguments.
     def authorise_candidate(action):
         return True
 
-    @Experiment(candidate=authorise_candidate)
+    @Experiment.decorator(candidate=authorise_candidate)
     def authorise_control(action):
         return True
 
@@ -102,25 +101,19 @@ Adding context
 --------------
 
 A lot of the time there's going to be extra context around an experiment that's
-useful to use in publishing or comparisons.  You can set this data in a few
-ways.
+useful to use in publishing or when verifying results. There are a couple ways
+to set this.
 
 .. code:: python
 
-    # The first is experiment-wide context, which will be set on every observation laboratory makes
+    # The first is experiment-wide context, which will be set on every Observation an experiment makes
     experiment = laboratory.Experiment(name='Authorisation experiment', context={'action': action})
 
-    # Observation-specific context can be updated before or as the experiment is running
-    with experiment.control(context={'strategy': 1}) as c:
-        e.update_context({'uuid': uuid})
-        e.get_context()
-        # {
-        #     'action': 'delete',
-        #     'strategy': 1,
-        #     'uuid': 'c08d46f1-92a6-46e5-9185-82d90dcb5af1',
-        # }
+    # Context can also be set on an Observation-specific basis
+    experiment.control(control_func, context={'strategy': 1})
+    experiment.candidate(cand_func, context={'strategy': 2})
 
-Context can be retrieved using the ``get_context`` method on ``Experiment`` and ``Observation`` classes.
+Context can be retrieved using the ``get_context`` method on ``Experiment`` and ``Observation`` instances.
 
 .. code:: python
 
@@ -136,8 +129,7 @@ Controlling comparison
 
 Not all data is created equal. By default laboratory compares using ``==``, but
 sometimes you may need to tweak this to suit your needs.  It's easy enough |--|
-just subclass ``Experiment`` and implement the ``compare(control,
-observation)`` method.
+subclass ``Experiment`` and implement the ``compare(control, observation)`` method.
 
 .. code:: python
 
