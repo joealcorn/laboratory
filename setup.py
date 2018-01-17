@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 from os import path
 
+import laboratory
+
 here = path.abspath(path.dirname(__file__))
 
 with open(path.join(here, 'README.rst')) as f:
@@ -9,7 +11,7 @@ with open(path.join(here, 'README.rst')) as f:
 setup(
     name='laboratory',
     packages=find_packages(),
-    version='1.0.dev',
+    version=laboratory.__version__,
     description="A Python port of Github's Scientist lib.",
     long_description=long_description,
     author='Joe Alcorn',
