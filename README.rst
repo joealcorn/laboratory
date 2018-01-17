@@ -74,8 +74,8 @@ Let's set up an experiment to run our old (control) and new (candidate) code:
 
     # set up the experiment and define control and candidate functions
     experiment = laboratory.Experiment()
-    experiment.control(authorise_control, args=(action,))
-    experiment.candidate(authorise_candidate, args=(action,))
+    experiment.control(authorise_control, args=[user], kwargs={'action': action})
+    experiment.candidate(authorise_candidate, args=[user], kwargs={'action': action})
 
     # conduct the experiment and return the control value
     authorised = experiment.conduct()
@@ -86,11 +86,11 @@ control and candidate functions take the same arguments.
 
 .. code:: python
 
-    def authorise_candidate(action):
+    def authorise_candidate(user, action=None):
         return True
 
     @Experiment.decorator(candidate=authorise_candidate)
-    def authorise_control(action):
+    def authorise_control(user, action=None):
         return True
 
 
