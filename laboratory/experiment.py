@@ -1,6 +1,7 @@
 from copy import deepcopy
 import logging
 import traceback
+import warnings
 
 from laboratory import exceptions
 from laboratory.observation import Observation, Test
@@ -51,6 +52,7 @@ class Experiment(object):
         return self._control.value
 
     def run(self):
+        warnings.warn('run() is deprecated and will be removed in 1.0. Use conduct() instead', DeprecationWarning)
         return self.conduct()
 
     def compare(self, control, observation):
