@@ -2,7 +2,6 @@ from copy import deepcopy
 from functools import wraps
 import logging
 import traceback
-import warnings
 
 from laboratory import exceptions
 from laboratory.observation import Observation
@@ -86,10 +85,6 @@ class Experiment(object):
             obs.set_end_time()
 
         return obs
-
-    def run(self):
-        warnings.warn('run() is deprecated and will be removed in 1.0. Use conduct() instead', DeprecationWarning)
-        return self.conduct()
 
     def compare(self, control, observation):
         if observation.failure or control.value != observation.value:
