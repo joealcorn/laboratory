@@ -14,6 +14,26 @@ def raise_exception():
 
 
 
+def test_experiment_must_contain_control():
+    experiment = laboratory.Experiment()
+    try:
+        experiment.conduct()
+    except laboratory.LaboratoryException as ex:
+        assert ex.message == 'Your experiment must contain a control case'
+    else:
+        assert False, 'Expected LaboratoryException to be raised'
+
+def test_experiment_can_not_rerecord_control():
+    experiment = laboratory.Experiment()
+    experiment.control(lambda: True)
+    try:
+        experiment.control(lambda: True)
+    except laboratory.LaboratoryException as ex:
+        assert ex.message == 'You have already established a control case'
+    else:
+        assert False, 'Expected LaboratoryException to be raised'
+
+
 def test_control_raising_exception():
     experiment = laboratory.Experiment()
     experiment.control(raise_exception)
@@ -67,7 +87,6 @@ def test_set_context(publish):
 
 def test_repr_without_value():
     obs = Observation("an observation")
-
     assert repr(obs) == "Observation(name='an observation', value=Unrecorded)"
 
 
@@ -75,12 +94,10 @@ def test_repr():
     obs = Observation("an observation")
     a_somewhat_complex_value = {'foo': 'bar'}
     obs.record(a_somewhat_complex_value)
-
     assert repr(obs) == """Observation(name='an observation', value={'foo': 'bar'})"""
 
 
 def test_repr_with_exception():
     obs = Observation("an observation")
     obs.set_exception(ValueError("something is wrong"))
-
     assert repr(obs) == """Observation(name='an observation', value=Unrecorded, exception=ValueError('something is wrong',))"""
