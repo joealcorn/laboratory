@@ -22,6 +22,18 @@ class Experiment(object):
         self._observations = []
         self._candidates = []
 
+    @classmethod
+    def decorator(cls, candidate, *exp_args, **exp_kwargs):
+        def wrapper(control):
+            @wraps(control)
+            def inner(*args, **kwargs):
+                experiment = cls(*exp_args, **exp_kwargs)
+                experiment.control(control, args=args, kwargs=kwargs)
+                experiment.candidate(candidate, args=args, kwargs=kwargs)
+                return experiment.conduct()
+            return inner
+        return wrapper
+
     def control(self, control_func, args=None, kwargs=None, name='Control', context=None):
         if self._control is not None:
             raise exceptions.LaboratoryException(
@@ -67,6 +79,18 @@ class Experiment(object):
 
         return control.value
 
+    def compare(self, control, observation):
+        if observation.failure or control.value != observation.value:
+            return self._handle_comparison_mismatch(control, observation)
+
+        return True
+
+    def publish(self, result):
+        return
+
+    def get_context(self):
+        return self.context
+
     def _run_tested_func(self, func, args, kwargs, name, context, raise_on_exception):
         ctx = deepcopy(self.context)
         ctx.update(context)
@@ -86,12 +110,6 @@ class Experiment(object):
 
         return obs
 
-    def compare(self, control, observation):
-        if observation.failure or control.value != observation.value:
-            return self._handle_comparison_mismatch(control, observation)
-
-        return True
-
     def _handle_comparison_mismatch(self, control, observation):
         if self.raise_on_mismatch:
             if observation.failure:
@@ -104,21 +122,3 @@ class Experiment(object):
             raise exceptions.MismatchException(msg)
 
         return False
-
-    def publish(self, result):
-        return
-
-    def get_context(self):
-        return self.context
-
-    @classmethod
-    def decorator(cls, candidate, *exp_args, **exp_kwargs):
-        def wrapper(control):
-            @wraps(control)
-            def inner(*args, **kwargs):
-                experiment = cls(*exp_args, **exp_kwargs)
-                experiment.control(control, args=args, kwargs=kwargs)
-                experiment.candidate(candidate, args=args, kwargs=kwargs)
-                return experiment.conduct()
-            return inner
-        return wrapper
