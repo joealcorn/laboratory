@@ -48,7 +48,7 @@ def test_candidate_raising_exception_silently():
     experiment.conduct()
     result = experiment._result
 
-    obs = result.observations[0]
+    obs = result.candidates[0]
     assert not result.match
     assert obs.value == unrecorded
     assert obs.exception is not None
@@ -82,7 +82,7 @@ def test_set_context(publish):
 
     assert experiment.get_context() == {'ctx': True}
     assert result.control.get_context() == {'ctx': True, 'control': True}
-    assert result.observations[0].get_context() == {'ctx': False, 'candidate': True}
+    assert result.candidates[0].get_context() == {'ctx': False, 'candidate': True}
 
 
 def test_repr_without_value():

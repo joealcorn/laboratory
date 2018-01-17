@@ -121,7 +121,7 @@ Context can be retrieved using the ``get_context`` method on ``Experiment`` and 
         def publish(self, result):
             self.get_context()
             result.control.get_context()
-            result.observations[0].get_context()
+            result.candidates[0].get_context()
 
 
 Controlling comparison
@@ -155,7 +155,7 @@ your needs.  For example, timing data can be sent to graphite, and mismatches
 can be placed in a capped collection in redis for debugging later.
 
 The publish method is passed a ``Result`` instance, with control and candidate
-data is available in ``Result.control`` and ``Result.observations``
+data is available in ``Result.control`` and ``Result.candidates``
 respectively.
 
 .. code:: python
@@ -163,7 +163,7 @@ respectively.
     class MyExperiment(laboratory.Experiment):
         def publish(self, result):
             statsd.timing('MyExperiment.control', result.control.duration)
-            for o in result.observations:
+            for o in result.candidates:
                 statsd.timing('MyExperiment.%s' % o.name, o.duration)
 
 

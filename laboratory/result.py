@@ -1,17 +1,17 @@
 
 class Result(object):
 
-    def __init__(self, experiment, control, observations):
+    def __init__(self, experiment, control, candidates):
         self.experiment = experiment
         self.control = control
-        self.observations = observations
+        self.candidates = candidates
 
         self.match = all([
             self.experiment.compare(self.control, o)
-            for o in self.observations
+            for o in self.candidates
         ])
 
     def __repr__(self):
-        return "Result(match={}, control={!r}, observations={!r})".format(
-            self.match, self.control, self.observations
+        return "Result(match={}, control={!r}, candidates={!r})".format(
+            self.match, self.control, self.candidates
         )
