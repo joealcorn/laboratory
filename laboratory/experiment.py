@@ -116,10 +116,6 @@ class Experiment(object):
     def get_context(self):
         return self.context
 
-    def _reset_state(self):
-        self._control = None
-        self._observations = []
-
     @classmethod
     def decorator(cls, candidate, *exp_args, **exp_kwargs):
         def wrapper(control):
