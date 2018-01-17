@@ -1,0 +1,26 @@
+Version 1.0 (unreleased)
+------------------------
+* Breaking: Experiment control & candidate blocks are now set up in a different way without the use of context processors.
+  This new API should allow some extra functionality in the future, but as a result you can no longer update
+  observation context from within the tested code itself.
+* Breaking: To use Experiment as a decorator you must now use the `Experiment.decorator` classmethod instead
+* Breaking: Result.observations renamed to Result.candidates
+
+
+Version 0.4.2
+-------------
+* Deprecate Experiment.run() in favour of Experiment.conduct()
+
+
+Version 0.4.1
+--------------
+* Allow Control cases to specify names for their observations as
+  documented (https://github.com/joealcorn/laboratory/issues/10)
+
+
+Version 0.4.0
+--------------
+
+* Started logging changes!
+* Fixed issue with observations persisting through experiment runs when
+  using decorator (https://github.com/joealcorn/laboratory/pull/9)
