@@ -19,7 +19,6 @@ class Experiment(object):
         self.raise_on_mismatch = raise_on_mismatch
 
         self._control = None
-        self._observations = []
         self._candidates = []
 
     @classmethod
@@ -96,9 +95,8 @@ class Experiment(object):
         ctx.update(context)
 
         obs = Observation(name, ctx)
-        self._observations.append(obs)
-
         obs.set_start_time()
+
         try:
             obs.record(func(*args, **kwargs))
         except Exception as ex:
