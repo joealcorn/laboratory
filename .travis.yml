@@ -22,4 +22,7 @@ matrix:
     - python: "3.6-dev"
 
 script:
+    - pip install -U setuptools
+    - pip install -U setuptools_scm
+    - pip install -U pip
     - python setup.py test
