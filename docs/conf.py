@@ -103,7 +103,7 @@ html_theme_options = {
     'show_related': True,
     'fixed_sidebar': True,
     'extra_nav_links': OrderedDict([
-        ('Github', 'https://github.com/joealcorn/laboratory'),
+        ('Source code', 'https://github.com/joealcorn/laboratory'),
         ('Travis CI', 'https://travis-ci.org/joealcorn/laboratory'),
         ('PyPI', 'https://pypi.python.org/pypi/laboratory'),
     ])
