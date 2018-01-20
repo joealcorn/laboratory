@@ -6,5 +6,24 @@ API Reference
    :caption: Contents:
 
 
-.. automodule:: laboratory.experiment
+Experiment
+----------
+
+.. autoclass:: laboratory.experiment.Experiment
+    :members: __init__, decorator, control, candidate, conduct, compare, publish, get_context
+
+
+Results
+-------
+
+.. autoclass:: laboratory.result.Result
+    :members:
+
+
+.. exceptions:
+
+Exceptions
+----------
+
+.. automodule:: laboratory.exceptions
    :members:

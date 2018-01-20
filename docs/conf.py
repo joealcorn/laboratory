@@ -21,7 +21,6 @@ import sys
 from collections import OrderedDict
 
 sys.path.insert(0, os.path.abspath('..'))
-# import ipdb; ipdb.set_trace()
 
 # -- General configuration ------------------------------------------------
 
@@ -80,6 +79,7 @@ pygments_style = 'sphinx'
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
 
+autodoc_member_order = 'bysource'
 
 # -- Options for HTML output ----------------------------------------------
 

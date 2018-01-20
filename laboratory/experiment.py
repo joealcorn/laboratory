@@ -12,8 +12,21 @@ logger = logging.getLogger(__name__)
 
 
 class Experiment(object):
+    '''
+    Experiment base class. Handles running your control and candidate functions.
+    Should be subclassed to add publishing functionality.
+
+    :ivar string name: Experiment name
+    :ivar dict raise_on_mismatch: Raise :class:`MismatchException` when experiment results do not match
+    '''
 
     def __init__(self, name='Experiment', context=None, raise_on_mismatch=False):
+        '''
+        :param string name: Experiment name
+        :param dict context: Experiment-wide context
+        :param bool raise_on_mismatch: Raise if results do not match
+        '''
+
         self.name = name
         self.context = context or {}
         self.raise_on_mismatch = raise_on_mismatch
@@ -22,18 +35,45 @@ class Experiment(object):
         self._candidates = []
 
     @classmethod
-    def decorator(cls, candidate, *exp_args, **exp_kwargs):
+    def decorator(cls, cand_func, *exp_args, **exp_kwargs):
+        '''
+        Decorate a control function in order to conduct an experiment when called.
+
+        :param callable cand_func: your candidate function
+        :param iterable exp_args: positional arguments passed to :class:`Experiment`
+        :param dict exp_kwargs: keyword arguments passed to :class:`Experiment`
+
+        Usage::
+
+            candidate_func = lambda: True
+
+            @Experiment.decorator(candidate_func)
+            def control_func():
+                return True
+
+        '''
         def wrapper(control):
             @wraps(control)
             def inner(*args, **kwargs):
                 experiment = cls(*exp_args, **exp_kwargs)
                 experiment.control(control, args=args, kwargs=kwargs)
-                experiment.candidate(candidate, args=args, kwargs=kwargs)
+                experiment.candidate(cand_func, args=args, kwargs=kwargs)
                 return experiment.conduct()
             return inner
         return wrapper
 
     def control(self, control_func, args=None, kwargs=None, name='Control', context=None):
+        '''
+        Set the experiment's control function. Must be set before ``conduct()`` is called.
+
+        :param callable control_func: your control function
+        :param iterable args: positional arguments to pass to your function
+        :param dict kwargs: keyword arguments to pass to your function
+        :param string name: a name for your observation
+        :param dict context: observation-specific context
+
+        :raises LaboratoryException: If attempting to set a second control case
+        '''
         if self._control is not None:
             raise exceptions.LaboratoryException(
                 'You have already established a control case'
@@ -48,6 +88,16 @@ class Experiment(object):
         }
 
     def candidate(self, cand_func, args=None, kwargs=None, name='Candidate', context=None):
+        '''
+        Adds a candidate function to an experiment. Can be used multiple times for
+        multiple candidates.
+
+        :param callable cand_func: your control function
+        :param iterable args: positional arguments to pass to your function
+        :param dict kwargs: keyword arguments to pass to your function
+        :param string name: a name for your observation
+        :param dict context: observation-specific context
+        '''
         self._candidates.append({
             'func': cand_func,
             'args': args or [],
@@ -57,6 +107,13 @@ class Experiment(object):
         })
 
     def conduct(self):
+        '''
+        Run control & candidate functions and return the control's return value.
+        ``control()`` must be called first.
+
+        :raise LaboratoryException: when no control case has been set
+        :return: Control function's return value
+        '''
         if self._control is None:
             raise exceptions.LaboratoryException(
                 'Your experiment must contain a control case'
@@ -79,15 +136,38 @@ class Experiment(object):
         return control.value
 
     def compare(self, control, observation):
+        '''
+        Compares two :class:`Observation` instances.
+
+        :param Observation control: The control block's :class:`Observation`
+        :param Observation observation: A candidate block's :class:`Observation`
+
+        :raises MismatchException: If ``Experiment.raise_on_mismatch`` is True
+
+        :return bool: match?
+        '''
         if observation.failure or control.value != observation.value:
             return self._handle_comparison_mismatch(control, observation)
 
         return True
 
     def publish(self, result):
+        '''
+        Publish the results of an experiment.
+        This is called after each experiment run.
+        By default this is a no-op. You should subclass ``Experiment`` and
+        implement the publish method to suit your needs.
+
+        Exceptions that occur during publishing will be caught, but logged.
+
+        :param Result result: The result of an experiment run
+        '''
         return
 
     def get_context(self):
+        '''
+        :return dict: Experiment-wide context
+        '''
         return self.context
 
     def _run_tested_func(self, func, args, kwargs, name, context, raise_on_exception):

@@ -1,5 +1,11 @@
 
 class Result(object):
+    '''
+    :ivar Experiment experiment: The experiment instance that recorded this Result
+    :ivar Observation control: The control observation
+    :ivar [Observation] candidates: A list of candidate observations
+    :ivar bool match: Whether all candidates match the control case
+    '''
 
     def __init__(self, experiment, control, candidates):
         self.experiment = experiment
