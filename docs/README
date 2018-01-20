@@ -1,0 +1,1 @@
+watchmedo shell-command --command='make html' -p '*.rst;*.py' -R -D ../docs/_build/ ../

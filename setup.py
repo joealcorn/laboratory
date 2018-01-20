@@ -19,6 +19,11 @@ setup(
     url='https://github.com/joealcorn/laboratory',
     setup_requires=['pytest-runner'],
     tests_require=['pytest', 'mock'],
+    extras_require={
+        'dev': [
+            'Sphinx==1.6.6',
+        ]
+    },
     license='MIT',
     classifiers=[
         'License :: OSI Approved :: MIT License',
