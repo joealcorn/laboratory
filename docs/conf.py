@@ -93,6 +93,7 @@ html_theme = 'alabaster'
 # documentation.
 #
 html_theme_options = {
+    'analytics_id': 'UA-112806111-1',
     'description': 'A Python library for refactoring with confidence',
     'github_banner': False,
     'github_type': 'star',
