@@ -13,7 +13,14 @@ Experiment
     :members: __init__, decorator, control, candidate, conduct, compare, publish, get_context
 
 
-Results
+Observation
+-----------
+
+.. autoclass:: laboratory.observation.Observation
+    :members:
+
+
+Result
 -------
 
 .. autoclass:: laboratory.result.Result

@@ -11,6 +11,16 @@ unrecorded = _Unrecorded()
 
 
 class Observation(object):
+    '''
+    Result of running a single code block.
+
+    :ivar string name: observation name
+    :ivar bool failure: did the function raise an exception
+    :ivar Exception exception: exception raised, if any
+    :ivar exc_info: result of sys.exc_info(), if exception raised
+    :ivar value: function return value
+    '''
+
     def __init__(self, name, context=None):
         self.name = name
         self.failure = False
@@ -30,6 +40,11 @@ class Observation(object):
 
     @property
     def duration(self):
+        '''
+        How long the function took to execute
+
+        :rtype: timedelta
+        '''
         return self.end_time - self.start_time
 
     def set_exception(self, exception):
@@ -38,6 +53,7 @@ class Observation(object):
         self.exc_info = sys.exc_info()
 
     def get_context(self):
+        '''Return observation-specific context'''
         return self.context
 
     def update_context(self, context):
