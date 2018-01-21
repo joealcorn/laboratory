@@ -155,10 +155,9 @@ class Experiment(object):
         '''
         Publish the results of an experiment.
         This is called after each experiment run.
-        By default this is a no-op. You should subclass ``Experiment`` and
-        implement the publish method to suit your needs.
-
         Exceptions that occur during publishing will be caught, but logged.
+
+        By default this is a no-op. See :ref:`publishing`.
 
         :param Result result: The result of an experiment run
         '''

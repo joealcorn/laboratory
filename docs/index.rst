@@ -12,17 +12,18 @@ Laboratory helps us refactor important code paths with confidence. By conducting
 and verifying their results, we can not only see if our unproven code is misbehaving, we have
 established a feedback loop that we can use to guide us towards the correct behaviour.
 
+.. toctree::
+   :maxdepth: 2
+
+   Index & Quickstart <self>
+   installation
+   publishing
+   reference
+
 
 .. note:: These docs are a work in progress. More complete documentation can be found on the
           `project's github page <https://github.com/joealcorn/laboratory>`_
 
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-   installation
-   reference
 
 .. _quickstart:
 
@@ -59,7 +60,7 @@ Laboratory just:
 
 .. Note::
 
-    By default publish is a no-op. See `Publishing results <https://github.com/joealcorn/laboratory#publishing-results>`_
+    By default publish is a no-op. See :ref:`publishing`
 
 
 That's it as far as laboratory goes; the time consuming part will be implementing your

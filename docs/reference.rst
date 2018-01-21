@@ -1,10 +1,7 @@
 API Reference
 =============
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
+.. _ref_experiment:
 
 Experiment
 ----------
@@ -12,6 +9,7 @@ Experiment
 .. autoclass:: laboratory.experiment.Experiment
     :members: __init__, decorator, control, candidate, conduct, compare, publish, get_context
 
+.. _ref_observation:
 
 Observation
 -----------
@@ -19,15 +17,16 @@ Observation
 .. autoclass:: laboratory.observation.Observation
     :members:
 
+.. _ref_result:
 
 Result
--------
+------
 
 .. autoclass:: laboratory.result.Result
     :members:
 
 
-.. exceptions:
+.. _ref_exceptions:
 
 Exceptions
 ----------

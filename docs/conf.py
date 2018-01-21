@@ -104,6 +104,7 @@ html_theme_options = {
     'fixed_sidebar': True,
     'extra_nav_links': OrderedDict([
         ('Source code', 'https://github.com/joealcorn/laboratory'),
+        ('Documentation', 'https://laboratory-python.readthedocs.io'),
         ('Travis CI', 'https://travis-ci.org/joealcorn/laboratory'),
         ('PyPI', 'https://pypi.python.org/pypi/laboratory'),
     ])
