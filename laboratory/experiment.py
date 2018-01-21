@@ -135,19 +135,19 @@ class Experiment(object):
 
         return control.value
 
-    def compare(self, control, observation):
+    def compare(self, control, candidate):
         '''
         Compares two :class:`Observation` instances.
 
         :param Observation control: The control block's :class:`Observation`
-        :param Observation observation: A candidate block's :class:`Observation`
+        :param Observation candidate: A candidate block's :class:`Observation`
 
         :raises MismatchException: If ``Experiment.raise_on_mismatch`` is True
 
         :return bool: match?
         '''
-        if observation.failure or control.value != observation.value:
-            return self._handle_comparison_mismatch(control, observation)
+        if candidate.failure or control.value != candidate.value:
+            return self._handle_comparison_mismatch(control, candidate)
 
         return True
 
