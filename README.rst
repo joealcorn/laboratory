@@ -14,6 +14,7 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 - `Raise on mismatch`_
 - `Publishing results`_
 - `Installation`_
+- `Links`_
 
 .. _Why?:
 
@@ -190,6 +191,15 @@ Or the latest development version
 
 
 .. _tagged version: https://github.com/joealcorn/laboratory/releases
+
+
+Links
+-----
+
+- `Documentation <https://laboratory-python.readthedocs.io/en/latest/>`_
+- `Source code <https://github.com/joealcorn/laboratory/>`_
+- `CI server <https://travis-ci.org/joealcorn/laboratory/>`_
+- `Python Package Index <https://pypi.python.org/pypi/laboratory>`_
 
 
 Maintenance
