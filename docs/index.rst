@@ -6,14 +6,16 @@
 Laboratory
 ==========
 
-A Python library for carefully refactoring critical paths with support for Python 2.7, 3.3+
+A Python library for carefully refactoring critical paths with support for Python 2.7 & 3.3+
 
-Laboratory helps us refactor important code paths with confidence by conducting experiments
-and verifying the results.
+Laboratory helps us refactor important code paths with confidence. By conducting experiments
+and verifying their results, we can not only see if our unproven code is misbehaving, we have
+established a feedback loop that we can use to guide us towards the correct behaviour.
 
 
 .. note:: These docs are a work in progress. More complete documentation can be found on the
           `project's github page <https://github.com/joealcorn/laboratory>`_
+
 
 .. toctree::
    :maxdepth: 2
@@ -30,35 +32,44 @@ Quickstart
 See: :ref:`installation`
 
 With Laboratory you conduct an experiment with your known-good code as the
-control block and a new code branch as a candidate. Laboratory will then:
-
--  Run both the new (candidate) and the old (control) code
--  Compare the return values
--  Record timing information about old & new code
--  Catch (but record!) exceptions in the new code
--  Publish all of this information
-
-Let's see how to set up an experiment
+control block and a new code branch as a candidate.
 
 
-.. code:: python
+Let's do an experiment together::
 
     import laboratory
 
-    # set up the experiment and define control and candidate functions
+    # create an experiment
     experiment = laboratory.Experiment()
+
+    # set your control and candidate functions
     experiment.control(authorise_control, args=(user,))
     experiment.candidate(authorise_candidate, args=(user,))
 
     # conduct the experiment and return the control value
     authorised = experiment.conduct()
 
+Laboratory just:
+
+-  Ran the unproven (candidates) and the existing (control) code
+-  Compared the return values
+-  Recorded timing information about all code
+-  Caught (and logged) exceptions in the unproven code
+-  Published all of this information
+
+.. Note::
+
+    By default publish is a no-op. See `Publishing results <https://github.com/joealcorn/laboratory#publishing-results>`_
+
+
+That's it as far as laboratory goes; the time consuming part will be implementing your
+candidates correctly.
+
 
 Indices and tables
 ------------------
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
 

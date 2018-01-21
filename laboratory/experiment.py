@@ -35,11 +35,11 @@ class Experiment(object):
         self._candidates = []
 
     @classmethod
-    def decorator(cls, cand_func, *exp_args, **exp_kwargs):
+    def decorator(cls, candidate, *exp_args, **exp_kwargs):
         '''
         Decorate a control function in order to conduct an experiment when called.
 
-        :param callable cand_func: your candidate function
+        :param callable candidate: your candidate function
         :param iterable exp_args: positional arguments passed to :class:`Experiment`
         :param dict exp_kwargs: keyword arguments passed to :class:`Experiment`
 
@@ -57,7 +57,7 @@ class Experiment(object):
             def inner(*args, **kwargs):
                 experiment = cls(*exp_args, **exp_kwargs)
                 experiment.control(control, args=args, kwargs=kwargs)
-                experiment.candidate(cand_func, args=args, kwargs=kwargs)
+                experiment.candidate(candidate, args=args, kwargs=kwargs)
                 return experiment.conduct()
             return inner
         return wrapper
