@@ -121,6 +121,10 @@ class Experiment(object):
 
         # Run the control block and then any candidates
         control = self._run_tested_func(raise_on_exception=True, **self._control)
+
+        if not self.enabled():
+            return control.value
+
         candidates = [self._run_tested_func(
             raise_on_exception=False, **cand
         ) for cand in self._candidates]
@@ -134,6 +138,14 @@ class Experiment(object):
             logger.exception(msg % self.name)
 
         return control.value
+
+    def enabled(self):
+        '''
+        Enable the experiment? If false candidates will not be executed.
+
+        :rtype: bool
+        '''
+        return True
 
     def compare(self, control, candidate):
         '''

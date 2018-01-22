@@ -7,7 +7,7 @@ Experiment
 ----------
 
 .. autoclass:: laboratory.experiment.Experiment
-    :members: __init__, decorator, control, candidate, conduct, compare, publish, get_context
+    :members:
 
 .. _ref_observation:
 

@@ -70,6 +70,25 @@ def test_raise_on_mismatch():
         experiment.conduct()
 
 
+def test_disable_experiment():
+    experiment = laboratory.Experiment()
+
+    enabled_func = mock.Mock(return_value=False)
+    experiment.enabled = enabled_func
+
+    control_func = mock.Mock()
+    cand_func = mock.Mock()
+
+    experiment.control(control_func)
+    experiment.candidate(cand_func)
+
+    result = experiment.conduct()
+
+    assert result is control_func.return_value
+    assert enabled_func.called
+    assert not cand_func.called
+
+
 @mock.patch.object(laboratory.Experiment, 'publish')
 def test_set_context(publish):
     experiment = laboratory.Experiment(context={'ctx': True})

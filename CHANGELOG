@@ -1,5 +1,6 @@
 Version 1.0 (unreleased)
 ------------------------
+* Added: Conditionally disable Experiments with `enabled()`
 * Breaking: Experiment control & candidate blocks are now set up in a different way without the use of context processors.
   This new API should allow some extra functionality in the future, but as a result you can no longer update
   observation context from within the tested code itself.
