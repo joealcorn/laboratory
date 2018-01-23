@@ -21,7 +21,7 @@ established a feedback loop that we can use to guide us towards the correct beha
    reference
 
 
-.. note:: These docs are a work in progress. More complete documentation can be found on the
+.. note:: These docs are a work in progress. Additional documentation can be found on the
           `project's github page <https://github.com/joealcorn/laboratory>`_
 
 
