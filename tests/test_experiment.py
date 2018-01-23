@@ -120,3 +120,31 @@ def test_repr_with_exception():
     obs = Observation("an observation")
     obs.set_exception(ValueError("something is wrong"))
     assert repr(obs) == """Observation(name='an observation', value=Unrecorded, exception=ValueError('something is wrong',))"""
+
+
+def test_functions_executed_in_random_order():
+    # Not sure how to properly test random behaviour, so I'm going to do
+    # an experiment with 100 candidates and record how many candidates run
+    # before the control. Do that a few times and ensure that there's some
+    # variation in the results
+
+    def run_experiment():
+        exp = laboratory.Experiment()
+
+        counter = {'index': 0}
+        def increment_counter():
+            counter['index'] += 1
+
+        def control_func():
+            return counter['index']
+
+        cand_func = mock.Mock(side_effect=increment_counter)
+
+        exp.control(control_func)
+        for _ in range(100):
+            exp.candidate(cand_func)
+
+        return exp.conduct()
+
+    control_indexes = [run_experiment() for i in range(5)]
+    assert len(set(control_indexes)) > 1

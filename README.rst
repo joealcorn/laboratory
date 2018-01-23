@@ -50,7 +50,7 @@ See: `Installation`_
 With Laboratory you conduct an experiment with your known-good code as the
 control block and a new code branch as a candidate. Laboratory will:
 
--  Run both the new and the old code
+-  Execute the new and the old code in a randomised order
 -  Compare the return values
 -  Record timing information about old & new code
 -  Catch (but record!) exceptions in the new code

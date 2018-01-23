@@ -1,6 +1,7 @@
 from copy import deepcopy
 from functools import wraps
 import logging
+import random
 import traceback
 
 from laboratory import exceptions
@@ -119,15 +120,34 @@ class Experiment(object):
                 'Your experiment must contain a control case'
             )
 
-        # Run the control block and then any candidates
-        control = self._run_tested_func(raise_on_exception=True, **self._control)
 
+        # execute control and exit if experiment is not enabled
         if not self.enabled():
+            control = self._run_tested_func(raise_on_exception=True, **self._control)
             return control.value
 
-        candidates = [self._run_tested_func(
-            raise_on_exception=False, **cand
-        ) for cand in self._candidates]
+        # otherwise, let's wrap an executor around all of our functions and randomise the ordering
+
+        def get_func_executor(obs_def, is_control):
+            """A lightweight wrapper around a tested function in order to retrieve state"""
+            return lambda *a, **kw: (self._run_tested_func(raise_on_exception=is_control, **obs_def), is_control)
+
+        funcs = [
+            get_func_executor(self._control, is_control=True),
+        ] + [get_func_executor(cand, is_control=False,) for cand in self._candidates]
+
+        random.shuffle(funcs)
+
+        control = None
+        candidates = []
+
+        # go through the randomised list and execute the functions
+        for func in funcs:
+            observation, is_control = func()
+            if is_control:
+                control = observation
+            else:
+                candidates.append(observation)
 
         result = Result(self, control, candidates)
 
