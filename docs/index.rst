@@ -8,9 +8,15 @@ Laboratory
 
 A Python library for carefully refactoring critical paths with support for Python 2.7 & 3.3+
 
-Laboratory helps us refactor important code paths with confidence. By conducting experiments
-and verifying their results, we can not only see if our unproven code is misbehaving, we have
-established a feedback loop that we can use to guide us towards the correct behaviour.
+Laboratory is all about sure-footed refactoring achieved through experimentation. By conducting
+experiments and verifying their results, not only can we see if our refactored code is
+misbehaving, we have established a feedback loop to help us correct its behaviour.
+
+
+.. note:: These docs are a work in progress. Additional documentation can be found in the
+          project's `README <https://github.com/joealcorn/laboratory#laboratory->`_
+
+
 
 .. toctree::
    :maxdepth: 2
@@ -20,17 +26,12 @@ established a feedback loop that we can use to guide us towards the correct beha
    publishing
    reference
 
-
-.. note:: These docs are a work in progress. Additional documentation can be found on the
-          `project's github page <https://github.com/joealcorn/laboratory>`_
-
-
 .. _quickstart:
 
 Quickstart
 ----------
 
-See: :ref:`installation` or ``pip install laboratory``
+See: :ref:`installation` or ``pip install laboratory==1.0.dev0``
 
 
 With Laboratory you conduct an experiment with your known-good code as the

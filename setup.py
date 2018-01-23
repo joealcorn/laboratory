@@ -12,7 +12,7 @@ setup(
     name='laboratory',
     packages=find_packages(),
     version=laboratory.__version__,
-    description="A Python port of Github's Scientist lib.",
+    description="Sure-footed refactoring achieved through experimenting",
     long_description=long_description,
     author='Joe Alcorn',
     author_email='joealcorn123@gmail.com',
@@ -26,10 +26,10 @@ setup(
     },
     license='MIT',
     classifiers=[
-        'License :: OSI Approved :: MIT License',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
-        'Topic :: Software Development :: Testing',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
@@ -39,5 +39,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Topic :: Software Development :: Testing',
+        'Topic :: Utilities',
     ]
 )
