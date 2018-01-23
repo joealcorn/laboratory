@@ -60,7 +60,7 @@ Laboratory just:
 -  Published all of this information (see :ref:`publishing`)
 
 For the most part that's all there is to it. You'll need to do some work to :ref:`publish your results <publishing>`
-in order to act on the experiment, but if you've got a metrics solution ready to go it should be easy.
+in order to act on the experiment, but if you've got a metrics solution ready to go it should be straightforward.
 
 If you need to `control comparison`_, you can do that too.
 
