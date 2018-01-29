@@ -21,23 +21,19 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 Why?
 ----
 
-Some blocks of code are more critical than the rest. Laboratory helps us refactor
-important code paths with confidence by testing in production and verifying
-the results.
 
-By running experiments, Laboratory helps you establish a feedback loop which
-you can use to make improvements to unproven code until the error rate is nil.
+Some blocks of code are more critical than the rest. Laboratory helps us refactor important
+code paths by running experiments in production and verifying the results.
 
-All non-trivial software has bugs, and bugs in code lead to bugs in data. This
-means only production is production, and so testing in production is the only
-way to ensure your code actually works.
+The value lies in its ability to give us a sense of confidence where there was none before.
+Through experimentation we immediately see if candidate code is misbehaving, and at the same
+time we establish a feedback loop that we can use to converge on correctness more quickly.
 
-I recommend reading Jesse Toth's `blog post`_ on using a similar techniques
-within Github that inspired this library, as well as Charity Majors on
-`why you should test in production`_.
+I've written a blog post if you'd like to know more: `Sure-footed refactoring`_.
+The original blog post that inspired this project is worth a read too: `Scientist`_.
 
-.. _blog post: https://githubengineering.com/scientist/
-.. _why you should test in production: https://opensource.com/article/17/8/testing-production
+.. _Sure-footed refactoring: https://joealcorn.co.uk/blog/2018/sure-footed-refactoring
+.. _Scientist: https://githubengineering.com/scientist/
 
 
 .. _Getting started:
@@ -45,7 +41,7 @@ within Github that inspired this library, as well as Charity Majors on
 Getting started
 ---------------
 
-See: `Installation`_
+See: `Installation`_ or ``pip install laboratory``
 
 With Laboratory you conduct an experiment with your known-good code as the
 control block and a new code branch as a candidate. Laboratory will:
@@ -200,6 +196,7 @@ Links
 - `Source code <https://github.com/joealcorn/laboratory/>`_
 - `CI server <https://travis-ci.org/joealcorn/laboratory/>`_
 - `Python Package Index <https://pypi.python.org/pypi/laboratory>`_
+- `Sure footed refacoring <https://joealcorn.co.uk/blog/2018/sure-footed-refactoring>`_
 
 
 Maintenance
