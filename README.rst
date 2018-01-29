@@ -181,7 +181,7 @@ You can also install a `tagged version`_ from Github
 
 .. code::
 
-    $ pip install https://github.com/joealcorn/laboratory/archive/v0.4.2.tar.gz
+    $ pip install https://github.com/joealcorn/laboratory/archive/v1.0.tar.gz
 
 Or the latest development version
 

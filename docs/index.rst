@@ -31,7 +31,7 @@ misbehaving, we have established a feedback loop to help us correct its behaviou
 Quickstart
 ----------
 
-See: :ref:`installation` or ``pip install laboratory==1.0.dev0``
+See: :ref:`installation` or ``pip install laboratory``
 
 
 With Laboratory you conduct an experiment with your known-good code as the

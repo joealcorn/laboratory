@@ -1,5 +1,6 @@
-Version 1.0 (unreleased)
+Version 1.0 (29-01-2018)
 ------------------------
+* Added: Sphinx documentation & docstrings
 * Added: Conditionally disable Experiments with `enabled()`
 * Added: Randomised execution order of experiments.
 * Breaking: Experiment control & candidate blocks are now set up in a different way without the use of context processors.
