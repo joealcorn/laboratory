@@ -12,6 +12,15 @@ Laboratory is all about sure-footed refactoring achieved through experimentation
 experiments and verifying their results, not only can we see if our refactored code is
 misbehaving, we have established a feedback loop to help us correct its behaviour.
 
+.. image:: https://img.shields.io/github/license/joealcorn/laboratory.svg?
+    :target: https://opensource.org/licenses/mit-license.php
+
+.. image:: https://img.shields.io/pypi/v/laboratory.svg?
+    :target: https://pypi.python.org/pypi/laboratory
+
+.. image:: https://img.shields.io/travis/joealcorn/laboratory.svg?
+    :target: https://travis-ci.org/joealcorn/laboratory
+
 
 .. note:: These docs are a work in progress. Additional documentation can be found in the
           project's `README <https://github.com/joealcorn/laboratory#laboratory->`_

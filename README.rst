@@ -1,5 +1,15 @@
-Laboratory! |Build Status|
-==========================
+Laboratory!
+===========
+
+.. image:: https://img.shields.io/github/license/joealcorn/laboratory.svg?
+    :target: https://opensource.org/licenses/mit-license.php
+
+.. image:: https://img.shields.io/pypi/v/laboratory.svg?
+    :target: https://pypi.python.org/pypi/laboratory
+
+.. image:: https://img.shields.io/travis/joealcorn/laboratory.svg?
+    :target: https://travis-ci.org/joealcorn/laboratory
+
 
 A Python library for carefully refactoring critical paths by testing in
 production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
@@ -206,6 +216,3 @@ Laboratory is actively maintained by Joe Alcorn (`Github <https://github.com/joe
 
 
 .. |--| unicode:: U+2014  .. em dash
-
-.. |Build Status| image:: https://travis-ci.org/joealcorn/laboratory.svg?branch=master
-   :target: https://travis-ci.org/joealcorn/laboratory
