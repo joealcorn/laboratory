@@ -20,21 +20,20 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 .. _GitHub's Scientist: https://github.com/github/scientist
 
 
-- `Why?`_
-- `Getting started`_
-- `Adding context`_
-- `Controlling comparison`_
-- `Raise on mismatch`_
-- `Publishing results`_
-- `Caveats`_
-- `Installation`_
-- `Links`_
+#. `Why?`_
+#. `Installation`_
+#. `Getting started`_
+#. `Adding context`_
+#. `Controlling comparison`_
+#. `Raise on mismatch`_
+#. `Publishing results`_
+#. `Caveats`_
+#. `Links`_
 
 .. _Why?:
 
 Why?
 ----
-
 
 Some blocks of code are more critical than the rest. Laboratory helps us refactor important
 code paths by running experiments in production and verifying the results.
@@ -49,6 +48,30 @@ The original blog post that inspired this project is worth a read too: `Scientis
 .. _Sure-footed refactoring: https://joealcorn.co.uk/blog/2018/sure-footed-refactoring
 .. _Scientist: https://githubengineering.com/scientist/
 
+
+Installation
+------------
+
+Installing from pypi is recommended
+
+.. code::
+
+    $ pip install laboratory
+
+You can also install a `tagged version`_ from Github
+
+.. code::
+
+    $ pip install https://github.com/joealcorn/laboratory/archive/v1.0.tar.gz
+
+Or the latest development version
+
+.. code::
+
+    $ pip install git+https://github.com/joealcorn/laboratory.git
+
+
+.. _tagged version: https://github.com/joealcorn/laboratory/releases
 
 .. _Getting started:
 
@@ -190,31 +213,6 @@ the control.
 You’ll also take a performance hit by running your new code in addition to the old,
 so be mindful of that. You should ramp an experiment up slowly and keep an eye on
 your metrics.
-
-
-Installation
-------------
-
-Installing from pypi is recommended
-
-.. code::
-
-    $ pip install laboratory
-
-You can also install a `tagged version`_ from Github
-
-.. code::
-
-    $ pip install https://github.com/joealcorn/laboratory/archive/v1.0.tar.gz
-
-Or the latest development version
-
-.. code::
-
-    $ pip install git+https://github.com/joealcorn/laboratory.git
-
-
-.. _tagged version: https://github.com/joealcorn/laboratory/releases
 
 
 Links
