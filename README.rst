@@ -176,7 +176,7 @@ do something along these lines:
 
 This is useful for slowly ramping up the experiment, but because we have access to
 the experiment context in the ``enabled`` method, we're also able to do fancier
-things like enabling on a user-specific basis.
+things like enabling only for specific users.
 
 .. code:: python
 
