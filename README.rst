@@ -24,6 +24,7 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 #. `Installation`_
 #. `Getting started`_
 #. `Adding context`_
+#. `Ramping up`_
 #. `Controlling comparison`_
 #. `Raise on mismatch`_
 #. `Publishing results`_
@@ -156,6 +157,33 @@ Context can be retrieved using the ``get_context`` method on ``Experiment`` and 
             self.get_context()
             result.control.get_context()
             result.candidates[0].get_context()
+
+
+Ramping up
+----------
+
+Before running a candidate code block Laboratory will call ``Experiment.enabled``.
+By overriding this method we can control when the candidate code will be executed.
+
+For example, if we wanted to enable the experiment for just 10% of calls, we could
+do something along these lines:
+
+.. code:: python
+
+    class MyExperiment(laboratory.Experiment):
+        def enabled(self):
+            return random.random() < 0.1
+
+This is useful for slowly ramping up the experiment, but because we have access to
+the experiment context in the ``enabled`` method, we're also able to do fancier
+things like enabling on a user-specific basis.
+
+.. code:: python
+
+    class MyExperiment(laboratory.Experiment):
+        def enabled(self):
+            ctx = self.get_context()
+            return ctx['user'] in user_segment
 
 
 Controlling comparison
