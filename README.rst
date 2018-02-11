@@ -26,6 +26,7 @@ production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
 - `Controlling comparison`_
 - `Raise on mismatch`_
 - `Publishing results`_
+- `Caveats`_
 - `Installation`_
 - `Links`_
 
@@ -175,6 +176,20 @@ respectively.
             statsd.timing('MyExperiment.control', result.control.duration)
             for o in result.candidates:
                 statsd.timing('MyExperiment.%s' % o.name, o.duration)
+
+
+Caveats
+-------
+
+Because of the way Laboratory works, there are some situations in which it should
+not be used. Namely, any code with side effects, such as disk or database writes,
+or other state changes, are unsuitable as they'll lead to duplicated writes.
+You could end up with buggy data or a candidate that affects the execution of
+the control.
+
+You’ll also take a performance hit by running your new code in addition to the old,
+so be mindful of that. You should ramp an experiment up slowly and keep an eye on
+your metrics.
 
 
 Installation
