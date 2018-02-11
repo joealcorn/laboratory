@@ -1,14 +1,17 @@
 Laboratory!
 ===========
 
+.. image:: https://img.shields.io/travis/joealcorn/laboratory.svg?
+    :target: https://travis-ci.org/joealcorn/laboratory
+
+.. image:: https://readthedocs.org/projects/laboratory-python/badge/?version=latest
+    :target: https://laboratory-python.readthedocs.io/en/latest/
+
 .. image:: https://img.shields.io/github/license/joealcorn/laboratory.svg?
     :target: https://opensource.org/licenses/mit-license.php
 
 .. image:: https://img.shields.io/pypi/v/laboratory.svg?
     :target: https://pypi.python.org/pypi/laboratory
-
-.. image:: https://img.shields.io/travis/joealcorn/laboratory.svg?
-    :target: https://travis-ci.org/joealcorn/laboratory
 
 
 A Python library for carefully refactoring critical paths by testing in
