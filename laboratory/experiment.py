@@ -18,7 +18,9 @@ class Experiment(object):
     Should be subclassed to add publishing functionality.
 
     :ivar string name: Experiment name
-    :ivar dict raise_on_mismatch: Raise :class:`MismatchException` when experiment results do not match
+    :ivar dict context: Experiment-wide context
+    :ivar bool raise_on_mismatch: Raise :class:`MismatchException` when
+     experiment results do not match
     '''
 
     def __init__(self, name='Experiment', context=None, raise_on_mismatch=False):
