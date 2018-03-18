@@ -18,7 +18,6 @@ class Experiment(object):
     Should be subclassed to add publishing functionality.
 
     :ivar string name: Experiment name
-    :ivar dict context: Experiment-wide context
     :ivar bool raise_on_mismatch: Raise :class:`MismatchException` when
      experiment results do not match
     '''
@@ -31,7 +30,7 @@ class Experiment(object):
         '''
 
         self.name = name
-        self.context = context or {}
+        self._context = context or {}
         self.raise_on_mismatch = raise_on_mismatch
 
         self._control = None
@@ -201,10 +200,10 @@ class Experiment(object):
         '''
         :return dict: Experiment-wide context
         '''
-        return self.context
+        return self._context
 
     def _run_tested_func(self, func, args, kwargs, name, context, raise_on_exception):
-        ctx = deepcopy(self.context)
+        ctx = deepcopy(self.get_context())
         ctx.update(context)
 
         obs = Observation(name, ctx)
