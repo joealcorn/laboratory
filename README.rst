@@ -250,7 +250,7 @@ Links
 - `Source code <https://github.com/joealcorn/laboratory/>`_
 - `CI server <https://travis-ci.org/joealcorn/laboratory/>`_
 - `Python Package Index <https://pypi.python.org/pypi/laboratory>`_
-- `Sure footed refacoring <https://joealcorn.co.uk/blog/2018/sure-footed-refactoring>`_
+- `Sure-footed refactoring <https://joealcorn.co.uk/blog/2018/sure-footed-refactoring>`_
 
 
 Maintenance
