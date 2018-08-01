@@ -148,3 +148,29 @@ def test_functions_executed_in_random_order():
 
     control_indexes = [run_experiment() for i in range(5)]
     assert len(set(control_indexes)) > 1
+
+
+def test_functions_executed_in_order():
+    # I'm basing this test on how we test random behavior. Instead of
+    # looking for variation, I want to look for consistency.
+
+    def run_experiment():
+        exp = laboratory.OrderedExperiment()
+
+        counter = {'index': 0}
+        def increment_counter():
+            counter['index'] += 1
+
+        def control_func():
+            return counter['index']
+
+        cand_func = mock.Mock(side_effect=increment_counter)
+
+        exp.control(control_func)
+        for _ in range(100):
+            exp.candidate(cand_func)
+
+        return exp.conduct()
+
+    control_indexes = [run_experiment() for i in range(5)]
+    assert set(control_indexes) == {0}

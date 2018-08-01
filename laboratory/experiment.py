@@ -250,3 +250,14 @@ class OrderedExperiment(Experiment):
     OrderedExperiment is an Experiment that runs the variants without randomization,
     i.e. it will run the control function then the candidate function.
     """
+
+    def generate_variant_functions(self):
+        """
+        By default, variant functions in an Experiment are randomized before execution to
+        help catch ordering issues.
+
+        :return: List of Function objects in random order
+        """
+        candidate_executors = [self._get_func_executor(cand, is_control=False, ) for cand in self._candidates]
+        funcs = [self._get_func_executor(self._control, is_control=True), ] + candidate_executors
+        return funcs
