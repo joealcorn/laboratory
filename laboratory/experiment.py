@@ -122,9 +122,11 @@ class Experiment(object):
         By default, variant functions in an Experiment are randomized before execution to
         help catch ordering issues.
 
-        :return: List of Function objects in random order
+        :return: List of Function objects wrapped by `self._get_func_executor` in random order
         """
-        candidate_executors = [self._get_func_executor(cand, is_control=False, ) for cand in self._candidates]
+        candidate_executors = [
+            self._get_func_executor(candidate, is_control=False, ) for candidate in self._candidates
+        ]
         funcs = [self._get_func_executor(self._control, is_control=True), ] + candidate_executors
         random.shuffle(funcs)
         return funcs
@@ -256,8 +258,9 @@ class OrderedExperiment(Experiment):
         By default, variant functions in an Experiment are randomized before execution to
         help catch ordering issues.
 
-        :return: List of Function objects in random order
+        :return: List of Function objects wrapped by `self._get_func_executor` in order of `control`
+            then the candidates in order of which they were set
         """
-        candidate_executors = [self._get_func_executor(cand, is_control=False, ) for cand in self._candidates]
+        candidate_executors = [self._get_func_executor(candidate, is_control=False, ) for candidate in self._candidates]
         funcs = [self._get_func_executor(self._control, is_control=True), ] + candidate_executors
         return funcs
