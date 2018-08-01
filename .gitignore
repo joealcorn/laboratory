@@ -7,3 +7,5 @@ __pycache__/
 dist/
 build/
 docs/_build/
+.idea/
+.pytest_cache/
