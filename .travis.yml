@@ -22,7 +22,14 @@ matrix:
     - python: "3.6-dev"
 
 script:
-    - pip install -U setuptools
+    # setuptools only supports py 3.3 up to version 39
+    - |
+      if [ "$TRAVIS_PYTHON_VERSION" == "3.3" ]
+      then
+        pip install -U 'setuptools<40'
+      else
+        pip install -U setuptools
+      fi
     - pip install -U setuptools_scm
     - pip install -U pip
     - python setup.py test
