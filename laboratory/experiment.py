@@ -108,6 +108,29 @@ class Experiment(object):
             'context': context or {},
         })
 
+    def _get_func_executor(self, obs_def, is_control):
+        """A lightweight wrapper around a tested function in order to retrieve state
+
+        :param obs_def: dict - Observation definition, containing 'args', 'context', 'func', 'kwargs', and 'name'
+        :param is_control: bool - whether or not this is the control function
+        :return: Callable
+        """
+        return lambda *a, **kw: (self._run_tested_func(raise_on_exception=is_control, **obs_def), is_control)
+
+    def generate_variant_functions(self):
+        """
+        By default, variant functions in an Experiment are randomized before execution to
+        help catch ordering issues.
+
+        :return: List of Function objects wrapped by `self._get_func_executor` in random order
+        """
+        candidate_executors = [
+            self._get_func_executor(candidate, is_control=False, ) for candidate in self._candidates
+        ]
+        funcs = [self._get_func_executor(self._control, is_control=True), ] + candidate_executors
+        random.shuffle(funcs)
+        return funcs
+
     def conduct(self):
         '''
         Run control & candidate functions and return the control's return value.
@@ -127,17 +150,7 @@ class Experiment(object):
             control = self._run_tested_func(raise_on_exception=True, **self._control)
             return control.value
 
-        # otherwise, let's wrap an executor around all of our functions and randomise the ordering
-
-        def get_func_executor(obs_def, is_control):
-            """A lightweight wrapper around a tested function in order to retrieve state"""
-            return lambda *a, **kw: (self._run_tested_func(raise_on_exception=is_control, **obs_def), is_control)
-
-        funcs = [
-            get_func_executor(self._control, is_control=True),
-        ] + [get_func_executor(cand, is_control=False,) for cand in self._candidates]
-
-        random.shuffle(funcs)
+        funcs = self.generate_variant_functions()
 
         control = None
         candidates = []
@@ -232,3 +245,22 @@ class Experiment(object):
             raise exceptions.MismatchException(msg)
 
         return False
+
+
+class OrderedExperiment(Experiment):
+    """
+    OrderedExperiment is an Experiment that runs the variants without randomization,
+    i.e. it will run the control function then the candidate function.
+    """
+
+    def generate_variant_functions(self):
+        """
+        By default, variant functions in an Experiment are randomized before execution to
+        help catch ordering issues.
+
+        :return: List of Function objects wrapped by `self._get_func_executor` in order of `control`
+            then the candidates in order of which they were set
+        """
+        candidate_executors = [self._get_func_executor(candidate, is_control=False, ) for candidate in self._candidates]
+        funcs = [self._get_func_executor(self._control, is_control=True), ] + candidate_executors
+        return funcs
