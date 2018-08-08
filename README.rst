@@ -15,7 +15,7 @@ Laboratory!
 
 
 A Python library for carefully refactoring critical paths by testing in
-production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
+production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.4+
 
 .. _GitHub's Scientist: https://github.com/github/scientist
 
