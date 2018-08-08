@@ -108,11 +108,13 @@ class Experiment(object):
             'context': context or {},
         })
 
-    def conduct(self):
+    def conduct(self, randomize=True):
         '''
         Run control & candidate functions and return the control's return value.
         ``control()`` must be called first.
 
+        :param bool randomize: controls whether we shuffle the order
+            of execution between control and candidate
         :raise LaboratoryException: when no control case has been set
         :return: Control function's return value
         '''
@@ -137,7 +139,8 @@ class Experiment(object):
             get_func_executor(self._control, is_control=True),
         ] + [get_func_executor(cand, is_control=False,) for cand in self._candidates]
 
-        random.shuffle(funcs)
+        if randomize:
+            random.shuffle(funcs)
 
         control = None
         candidates = []
