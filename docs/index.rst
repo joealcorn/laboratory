@@ -21,6 +21,9 @@ misbehaving, we have established a feedback loop to help us correct its behaviou
 .. image:: https://img.shields.io/travis/joealcorn/laboratory.svg?
     :target: https://travis-ci.org/joealcorn/laboratory
 
+.. image:: https://pypi-badges.global.ssl.fastly.net/svg?package=laboratory&timeframe=monthly
+    :target: https://pypi.joealcorn.co.uk
+
 
 .. note:: These docs are a work in progress. Additional documentation can be found in the
           project's `README <https://github.com/joealcorn/laboratory#laboratory->`_
