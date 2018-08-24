@@ -13,6 +13,9 @@ Laboratory!
 .. image:: https://img.shields.io/pypi/v/laboratory.svg?
     :target: https://pypi.python.org/pypi/laboratory
 
+.. image:: https://pypi-badges.global.ssl.fastly.net/svg?package=laboratory&timeframe=monthly
+    :target: https://pypi.joealcorn.co.uk
+
 
 A Python library for carefully refactoring critical paths by testing in
 production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
