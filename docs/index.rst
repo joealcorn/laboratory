@@ -26,7 +26,7 @@ misbehaving, we have established a feedback loop to help us correct its behaviou
 
 
 .. note:: These docs are a work in progress. Additional documentation can be found in the
-          project's `README <https://github.com/joealcorn/laboratory#laboratory->`_
+          project's `README <https://github.com/joealcorn/laboratory#laboratory>`_
 
 
 
