@@ -95,14 +95,15 @@ html_theme = 'alabaster'
 #
 html_theme_options = {
     # 'analytics_id': 'UA-112806111-1',
-    'description': 'A Python library for refactoring with confidence',
+    'description': 'Achieving confident refactoring through experimentation in Python 2.7 & 3.3+',
     'github_banner': False,
     'github_type': 'star',
     'github_repo': 'laboratory',
     'github_user': 'joealcorn',
     'travis_button': 'joealcorn/laboratory',
     'show_related': True,
-    'fixed_sidebar': True,
+    'fixed_sidebar': False,
+    'sidebar_collapse': True,
     'extra_nav_links': OrderedDict([
         ('Source code', 'https://github.com/joealcorn/laboratory'),
         ('Documentation', 'https://laboratory-python.readthedocs.io'),
@@ -129,6 +130,9 @@ html_sidebars = {
         'searchbox.html',
     ]
 }
+
+# Disable the py module index
+html_domain_indices = False
 
 
 # -- Options for HTMLHelp output ------------------------------------------
@@ -186,6 +190,3 @@ texinfo_documents = [
      author, 'Laboratory', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

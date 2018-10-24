@@ -6,7 +6,7 @@
 Laboratory
 ==========
 
-A Python library for carefully refactoring critical paths with support for Python 2.7 & 3.3+
+A library for carefully refactoring critical paths, with support for Python 2.7 & 3.3+
 
 Laboratory is all about sure-footed refactoring achieved through experimentation. By conducting
 experiments and verifying their results, not only can we see if our refactored code is
