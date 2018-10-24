@@ -22,6 +22,7 @@ setup(
     extras_require={
         'dev': [
             'Sphinx==1.6.6',
+            'alabaster==0.7.12',
         ]
     },
     license='MIT',
