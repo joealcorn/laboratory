@@ -119,7 +119,10 @@ def test_repr():
 def test_repr_with_exception():
     obs = Observation("an observation")
     obs.set_exception(ValueError("something is wrong"))
-    assert repr(obs) == """Observation(name='an observation', value=Unrecorded, exception=ValueError('something is wrong',))"""
+    repr_str = repr(obs)
+    assert "name='an observation'"
+    assert "value=Unrecorded"
+    assert "exception=ValueError("
 
 
 def test_functions_executed_in_random_order():
@@ -149,7 +152,6 @@ def test_functions_executed_in_random_order():
     control_indexes = [run_experiment() for i in range(5)]
     assert len(set(control_indexes)) > 1
 
-	
 def test_functions_executed_in_order():
     # I'm basing this test on how we test random behavior. Instead of
     # looking for variation, I want to look for consistency.
