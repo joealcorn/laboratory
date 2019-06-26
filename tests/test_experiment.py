@@ -198,4 +198,4 @@ def test_candidates_first_executes_control_last(randomize):
         return exp.conduct(randomize=randomize, candidates_first=True)
 
     control_indexes = [run_experiment() for i in range(5)]
-    assert set(control_indexes) == {num_candidates}
+    assert set(control_indexes) == set([num_candidates])
