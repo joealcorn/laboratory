@@ -173,3 +173,29 @@ def test_functions_executed_in_order():
 
     control_indexes = [run_experiment() for i in range(5)]
     assert set(control_indexes) == set([0])
+
+
+@pytest.mark.parametrize('randomize', [True, False])
+def test_candidates_first_executes_control_last(randomize):
+    num_candidates = 100
+
+    def run_experiment():
+        exp = laboratory.Experiment()
+
+        counter = {'index': 0}
+        def increment_counter():
+            counter['index'] += 1
+
+        def control_func():
+            return counter['index']
+
+        cand_func = mock.Mock(side_effect=increment_counter)
+
+        exp.control(control_func)
+        for _ in range(num_candidates):
+            exp.candidate(cand_func)
+
+        return exp.conduct(randomize=randomize, candidates_first=True)
+
+    control_indexes = [run_experiment() for i in range(5)]
+    assert set(control_indexes) == {num_candidates}
