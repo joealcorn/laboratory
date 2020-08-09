@@ -194,13 +194,13 @@ Controlling comparison
 
 Not all data is created equal. By default laboratory compares using ``==``, but
 sometimes you may need to tweak this to suit your needs.  It's easy enough |--|
-subclass ``Experiment`` and implement the ``compare(control, observation)`` method.
+subclass ``Experiment`` and implement the ``compare(control, candidate)`` method.
 
 .. code:: python
 
     class MyExperiment(Experiment):
-        def compare(self, control, observation):
-            return control.value['id'] == observation.value['id']
+        def compare(self, control, candidate):
+            return control.value['id'] == candidate.value['id']
 
 
 Raise on mismatch
