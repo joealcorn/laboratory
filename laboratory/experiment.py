@@ -108,13 +108,15 @@ class Experiment(object):
             'context': context or {},
         })
 
-    def conduct(self, randomize=True):
+    def conduct(self, randomize=True, candidates_first=False):
         '''
         Run control & candidate functions and return the control's return value.
         ``control()`` must be called first.
 
         :param bool randomize: controls whether we shuffle the order
             of execution between control and candidate
+        :param bool candidates_first: whether to run the candidates before the
+            control
         :raise LaboratoryException: when no control case has been set
         :return: Control function's return value
         '''
@@ -135,12 +137,17 @@ class Experiment(object):
             """A lightweight wrapper around a tested function in order to retrieve state"""
             return lambda *a, **kw: (self._run_tested_func(raise_on_exception=is_control, **obs_def), is_control)
 
-        funcs = [
-            get_func_executor(self._control, is_control=True),
-        ] + [get_func_executor(cand, is_control=False,) for cand in self._candidates]
+        control_func = get_func_executor(self._control, is_control=True)
+        funcs = [get_func_executor(cand, is_control=False,) for cand in self._candidates]
 
         if randomize:
             random.shuffle(funcs)
+
+        # Insert the control func at a random index if randomize and candidates are not run first
+        control_index = random.randint(0, len(funcs)) if randomize else 0
+        if candidates_first:
+            control_index = len(funcs)
+        funcs.insert(control_index, control_func)
 
         control = None
         candidates = []
