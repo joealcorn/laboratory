@@ -13,9 +13,6 @@ Laboratory!
 .. image:: https://img.shields.io/pypi/v/laboratory.svg?
     :target: https://pypi.python.org/pypi/laboratory
 
-.. image:: https://pypi-badges.global.ssl.fastly.net/svg?package=laboratory&timeframe=monthly
-    :target: https://pypi.joealcorn.co.uk
-
 
 A Python library for carefully refactoring critical paths by testing in
 production (inspired by `GitHub's Scientist`_) with support for Python 2.7, 3.3+
@@ -49,7 +46,7 @@ time we establish a feedback loop that we can use to converge on correctness mor
 I've written a blog post if you'd like to know more: `Sure-footed refactoring`_.
 The original blog post that inspired this project is worth a read too: `Scientist`_.
 
-.. _Sure-footed refactoring: https://joealcorn.co.uk/blog/2018/sure-footed-refactoring
+.. _Sure-footed refactoring: https://joealcorn.com/blog/2018/sure-footed-refactoring
 .. _Scientist: https://githubengineering.com/scientist/
 
 
@@ -253,7 +250,7 @@ Links
 - `Source code <https://github.com/joealcorn/laboratory/>`_
 - `CI server <https://travis-ci.org/joealcorn/laboratory/>`_
 - `Python Package Index <https://pypi.python.org/pypi/laboratory>`_
-- `Sure-footed refactoring <https://joealcorn.co.uk/blog/2018/sure-footed-refactoring>`_
+- `Sure-footed refactoring <https://joealcorn.com/blog/2018/sure-footed-refactoring>`_
 
 
 Maintenance
